@@ -1,0 +1,2 @@
+Club dog stickers (fi-top = dog only, ch-* = dog with the cat) — the owner's own art (antenka club),
+taken unmodified from the Claude Design export of 12.11.2026. Which sticker links where: app.js, STICKERS / initDog().

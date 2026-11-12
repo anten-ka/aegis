@@ -1,0 +1,115 @@
+/* go-ds · узоры: поиск «как в Настройках iPhone» (gx-find), подсветка найденного (is-found), «Вид» (gx-look),
+   полоса сохранения (gx-save), подтверждение на месте (gx-ask), «Поделиться» (gx-share), состояния (gx-state, gx-skel).
+   Поведение — js/go.js (внешний файл; CSP: script-src 'self', style-src 'self'; переменные значения — через CSSOM). */
+
+/* ── Поиск: компьютер — окно сверху по ⌘K / «/» или по полю в шапке; телефон — во весь экран над клавиатурой ── */
+.gx-find-back { position: fixed; inset: 0; z-index: 80; display: flex; justify-content: center; align-items: flex-start; padding: 10vh var(--sp-4) var(--sp-4); background: var(--backdrop); }
+.gx-find-back[hidden] { display: none; }
+.gx-find { width: min(100%, 640px); max-height: min(560px, 80dvh); display: flex; flex-direction: column; border-radius: var(--r-card); background: var(--surface-raised); box-shadow: var(--overlay-shadow); overflow: hidden; }
+.gx-find__in { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 var(--sp-3) 0 var(--sp-4); border-bottom: 1px solid var(--separator); color: var(--text-2); }
+.gx-find__in > input { flex: 1; min-width: 0; align-self: stretch; border: 0; padding: 0; background: transparent; color: var(--foreground); font: 400 var(--fs-lg) var(--font); outline: none; }
+.gx-find__in > input::-webkit-search-cancel-button { display: none; }
+.gx-find__res { flex: 1; min-height: 0; overflow-y: auto; padding: 6px; display: grid; align-content: start; }
+.gx-find__h { padding: 10px 10px 4px; font: 500 var(--fs-xs)/1.3 var(--font); color: var(--text-2); }
+.gx-find__i { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: 4px var(--sp-3); min-height: 48px; padding: 6px 10px; border-radius: var(--r-field); color: var(--foreground); cursor: pointer; }
+.gx-find__i[aria-selected="true"] { background: var(--accent-soft); }
+.gx-find__ic { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; background: var(--surface-2); color: var(--text-2); }
+.gx-find__i[aria-selected="true"] .gx-find__ic { background: var(--accent); color: var(--accent-foreground); }
+.gx-find__b { display: grid; min-width: 0; }
+.gx-find__t { font: 500 var(--fs)/20px var(--font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-find__p { font-size: var(--fs-xs); line-height: 17px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-find__k { font-size: var(--fs-xs); color: var(--text-2); }
+.gx-find__i[aria-selected="true"] .gx-find__k { color: var(--accent-text); }
+.gx-find mark { background: none; color: var(--accent-text); font-weight: 600; }
+.gx-find__empty { display: grid; justify-items: center; gap: var(--sp-3); padding: var(--sp-8) var(--sp-4); text-align: center; }
+.gx-find__empty > b { font: 600 var(--fs-lg)/1.3 var(--font-head); }
+.gx-find__empty > p { color: var(--text-2); max-width: 40ch; text-wrap: pretty; }
+.gx-find__sugg { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.gx-find__foot { display: flex; flex-wrap: wrap; gap: 6px var(--sp-4); padding: 10px var(--sp-4); border-top: 1px solid var(--separator); font-size: var(--fs-xs); color: var(--text-2); }
+.gx-find__foot > span { display: inline-flex; align-items: center; gap: 6px; }
+[data-device="phone"] .gx-find-back { padding: 0; align-items: stretch; background: var(--background); }
+[data-device="phone"] .gx-find { width: 100%; height: var(--vvh, 100dvh); max-height: none; border-radius: 0; box-shadow: none; background: var(--background); padding-top: env(safe-area-inset-top); }
+[data-device="phone"] .gx-find__in { gap: var(--sp-2); padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-3); min-height: 60px; }
+[data-device="phone"] .gx-find__in > input { height: var(--touch); padding: 0 12px; border-radius: var(--r-field); background: var(--field-background); box-shadow: var(--field-shadow); font-size: 16px; }
+[data-device="phone"] .gx-find__in > .gm--search { display: none; }
+[data-device="phone"] .gx-find__i { min-height: 56px; }
+[data-device="phone"] .gx-find__foot { display: none; }
+
+/* Найденное поле: подсветка 2,4 с, затем исчезает (класс ставит JS и снимает) */
+.is-found { border-radius: var(--r-field); animation: gx-found 2.4s var(--ease); }
+@keyframes gx-found { 0%, 60% { box-shadow: 0 0 0 3px var(--accent), 0 0 0 7px var(--accent-soft); } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+/* ── «Вид»: строки «подпись — выбор». Шторка справа (компьютер), лист или страница (телефон), компактный блок в «Настройках» ── */
+.gx-look { display: grid; gap: var(--sp-4); }
+.gx-look__r { display: grid; gap: var(--sp-2); min-width: 0; }
+.gx-look__l { font: 500 var(--fs-sm)/1.4 var(--font); color: var(--text-2); }
+.gx-look__themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--sp-2); }
+.gx-look__th { display: grid; gap: 6px; padding: 6px 6px 8px; border: 0; border-radius: var(--r-field); background: var(--surface-2); color: var(--foreground); font: 500 var(--fs-xs)/1.25 var(--font); text-align: left; cursor: pointer; }
+.gx-look__th[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--accent); }
+.gx-look__th:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.gx-look__sw { display: block; height: 36px; border-radius: 6px; background: var(--background); box-shadow: inset 0 0 0 1px var(--border); }
+.gx-look__note { font-size: var(--fs-xs); color: var(--text-2); }
+.gx-look--compact { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--sp-4) var(--sp-5); }
+
+/* ── Полоса сохранения: data-state = hidden · dirty · calc · error · conflict. Снизу по центру; на телефоне — над вкладками ── */
+.gx-save { position: fixed; z-index: 45; left: calc(var(--side-w) + (100vw - var(--side-w)) / 2); bottom: var(--sp-5); transform: translateX(-50%); width: min(calc(100vw - var(--side-w) - 48px), 720px);
+  display: grid; gap: var(--sp-3); padding: 10px 10px 10px var(--sp-4); border-radius: var(--r-card); background: var(--surface-raised); box-shadow: var(--overlay-shadow); }
+.gx-save[data-state="hidden"] { display: none; }
+.gx-save__row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); min-width: 0; }
+.gx-save__msg { flex: 1 1 220px; min-width: 0; display: flex; align-items: center; gap: var(--sp-2); font-weight: 500; text-wrap: pretty; }
+.gx-save__msg > small { font-weight: 400; color: var(--text-2); }
+.gx-save__acts { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-left: auto; }
+.gx-save[data-state="error"] { box-shadow: var(--overlay-shadow), inset 0 0 0 1.5px var(--danger); }
+.gx-save[data-state="error"] .gx-save__msg > .gm { color: var(--danger-text); }
+.gx-save[data-state="conflict"] { box-shadow: var(--overlay-shadow), inset 0 0 0 1.5px var(--warning); }
+.gx-save[data-state="conflict"] .gx-save__msg > .gm { color: var(--warning-text); }
+.gx-save__diff { display: grid; gap: 4px; margin: 0; padding: 10px 12px; border-radius: var(--r-field); background: var(--surface-2); list-style: none; font-size: var(--fs-sm); }
+.gx-save__diff > li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sp-3); }
+.gx-save__diff s { color: var(--text-2); }
+.gx-save__diff > li > span:last-child { font-family: var(--mono); font-size: 12.5px; text-align: right; }
+@media (max-width: 767px) {
+  .gx-save { left: 0; right: 0; bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom)); transform: none; width: auto; border-radius: 0; padding: 10px var(--sp-4); box-shadow: 0 -1px 0 var(--separator); background: var(--surface); }
+  .gx-save__acts { width: 100%; }
+  .gx-save__acts > .ga-btn { flex: 1 1 0; min-height: var(--h-lg); }
+}
+
+/* ── Подтверждение на месте: строка → вопрос + «что ещё случится». Для необратимого — окно gx-dlg ─────────── */
+.gx-ask { grid-column: 1 / -1; display: grid; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); margin: 4px 0; border-radius: var(--r-field); background: var(--danger-soft); min-width: 0; }
+.gx-ask[hidden] { display: none; }
+.gx-ask__q { font-weight: 600; overflow-wrap: anywhere; }
+.gx-ask__more { font-size: var(--fs-sm); color: var(--foreground); text-wrap: pretty; }
+.gx-ask__more::before { content: "Что ещё случится: "; color: var(--text-2); }
+[lang="en"] .gx-ask__more::before { content: "What else happens: "; }
+.gx-ask__btns { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.gx-ask--soft { background: var(--surface-2); }
+
+/* ── «Поделиться»: QR, ссылка, отправить ─────────────────────────────────── */
+.gx-share { display: grid; gap: var(--sp-4); justify-items: center; }
+.gx-qr { width: 200px; aspect-ratio: 1; border-radius: var(--r-card); background: var(--qr-paper); color: var(--qr-ink); display: grid; place-items: center; align-content: center; gap: 6px; font-size: var(--fs-xs); }
+.gx-qr > img { width: 100%; height: 100%; padding: 12px; }
+.gx-share > .gx-code, .gx-share__btns { width: 100%; }
+.gx-share__btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--sp-2); }
+
+/* ── Состояния: пусто, ошибка (gx-state), загрузка (gx-skel) ─────────────── */
+.gx-state { display: grid; justify-items: start; gap: var(--sp-3); padding: var(--sp-5) 0; }
+.gx-state__ic { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); color: var(--text-2); }
+.gx-state--error .gx-state__ic { background: var(--danger-soft); color: var(--danger-text); }
+.gx-state__t { font: 600 var(--fs-lg)/1.3 var(--font-head); }
+.gx-state__p { color: var(--text-2); max-width: 52ch; text-wrap: pretty; }
+.gx-state__btns { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.gx-skel { display: grid; gap: var(--sp-3); }
+.gx-skel > i { display: block; height: 14px; border-radius: 7px; background: var(--surface-3); animation: gx-skel-p 1.4s ease-in-out infinite; }
+.gx-skel > i:nth-child(3n+1) { width: 62%; } .gx-skel > i:nth-child(3n+2) { width: 88%; } .gx-skel > i:nth-child(3n) { width: 40%; }
+.gx-skel--row > i { height: 36px; width: 100%; border-radius: var(--r-field); }
+@keyframes gx-skel-p { 50% { opacity: .45; } }
+
+/* ── Принудительные состояния для витрины и документации (is-hover · is-focus) — те же значения, что у :hover и :focus-visible ── */
+.ga-btn.is-hover { background: var(--surface-3-hover); }
+.ga-btn--primary.is-hover { background: var(--accent-hover); }
+.ga-btn--ghost.is-hover { background: var(--surface-2); }
+.ga-btn--danger-soft.is-hover { background: var(--danger-soft-hover); }
+.ga-btn--danger.is-hover { background: var(--danger-strong-hover); }
+.ga-btn.is-focus, .gx-seg > button.is-focus, .gx-nav__i.is-focus { box-shadow: var(--focus-ring); }
+.gx-input.is-hover { background: var(--field-hover); }
+.gx-input.is-focus { box-shadow: var(--field-focus); }
+.gx-list__i.is-hover, .gx-nav__i.is-hover, .gx-menu__i.is-hover { background: var(--surface-hover); }

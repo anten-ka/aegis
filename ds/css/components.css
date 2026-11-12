@@ -1,0 +1,310 @@
+/* go-ds · компоненты. Один класс и одна разметка на компонент; цвета — только токены (литералов нет).
+   Префиксы: ga-btn, ga-kbd (история серии) · gx-* (всё остальное) · состояния is-*, aria-*, data-*.
+   Этап 1: кнопки, поля, карточки, списки, плитки, статусы (+ сообщение). Остальное — следующим этапом. */
+
+/* ── 0. Значок, ожидание, скрытый текст ──────────────────────────────────── */
+/* Значки Gravity UI (MIT) — inline <svg class="gi" viewBox="0 0 16 16" aria-hidden="true">, цвет — currentColor */
+.gi { display: inline-block; flex: none; width: 16px; height: 16px; vertical-align: -0.125em; fill: currentColor; }
+.gi--sm { width: 14px; height: 14px; }
+.gi--lg { width: 18px; height: 18px; }
+.gi--xl { width: 20px; height: 20px; }
+.gx-spin { display: inline-block; width: 16px; height: 16px; flex: none; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: gx-spin .8s linear infinite; }
+.gx-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ── 1. Кнопка: ga-btn ───────────────────────────────────────────────────────
+   Роли: --primary (одна на карточку) · --tertiary (второстепенная, по умолчанию) · --ghost (текстовая) ·
+   --danger-soft (опасная зона, всегда со словом действия) · --danger (только подтверждение в окне) ·
+   --inverse (внутри цветного сообщения) · --link (ссылка-кнопка) · --copy («Скопировать» в поле, блоке кода).
+   Размеры --sm / --md (по умолчанию) / --lg; --icon — только значок (aria-label + title); --full, --grow.
+   Состояния: :hover, :focus-visible, [aria-disabled="true"] + подсказка gx-hint (почему выключено, aria-describedby),
+   [aria-busy="true"] — кольцо вместо значка, не нажимается. Длинная подпись переносится только когда не влезает. */
+.ga-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2); min-height: var(--h-md); padding: 6px 18px; border: 0;
+  border-radius: var(--r-btn); font: 500 var(--fs)/1.25 var(--font); text-align: center; text-wrap: balance; cursor: pointer; flex: none; max-width: 100%; min-width: 0; text-decoration: none;
+  background: var(--surface-3); color: var(--foreground); transition: background var(--dur) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur); }
+.ga-btn:hover:not([disabled]):not([aria-disabled="true"]) { background: var(--surface-3-hover); }
+.ga-btn:active:not([disabled]):not([aria-disabled="true"]) { transform: scale(.97); }
+.ga-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ga-btn[disabled], .ga-btn[aria-disabled="true"] { opacity: var(--disabled-opacity); cursor: not-allowed; }
+.ga-btn[aria-busy="true"] { pointer-events: none; }
+.ga-btn[aria-busy="true"] > .gi { display: none; }
+.ga-btn[aria-busy="true"]::before { content: ""; width: 14px; height: 14px; flex: none; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: gx-spin .8s linear infinite; }
+
+.ga-btn--primary { background: var(--accent); color: var(--accent-foreground); font-weight: 600; }
+.ga-btn--primary:hover:not([disabled]):not([aria-disabled="true"]) { background: var(--accent-hover); }
+.ga-btn--primary:active { background: var(--accent-press); }
+.ga-btn--tertiary { background: var(--surface-3); color: var(--foreground); }
+.ga-btn--ghost { background: transparent; color: var(--foreground); padding-inline: 14px; }
+.ga-btn--ghost:hover:not([disabled]):not([aria-disabled="true"]) { background: var(--surface-2); }
+.ga-btn--danger-soft { background: var(--danger-soft); color: var(--danger-text); }
+.ga-btn--danger-soft:hover:not([disabled]):not([aria-disabled="true"]) { background: var(--danger-soft-hover); }
+.ga-btn--danger { background: var(--danger-strong); color: var(--danger-foreground); font-weight: 600; }
+.ga-btn--danger:hover:not([disabled]):not([aria-disabled="true"]) { background: var(--danger-strong-hover); }
+.ga-btn--inverse { background: var(--surface); color: var(--foreground); }
+.ga-btn--inverse:hover:not([disabled]):not([aria-disabled="true"]) { background: var(--surface-hover); }
+.ga-btn--link { min-height: 0; padding: 2px 0; border-radius: 4px; background: none; color: var(--accent-text); font-size: var(--fs-sm);
+  text-decoration: underline; text-decoration-color: color-mix(in oklab, currentColor 40%, transparent); text-underline-offset: 3px; }
+.ga-btn--link:hover:not([disabled]):not([aria-disabled="true"]) { background: none; text-decoration-color: currentColor; }
+.ga-btn--link:active { transform: none; }
+.ga-btn--copy { min-height: var(--h-sm); padding: 4px 12px 4px 10px; gap: 6px; background: transparent; font-size: var(--fs-sm); align-self: flex-start; }
+.ga-btn--copy:hover:not([disabled]):not([aria-disabled="true"]) { background: var(--surface-3); }
+.ga-btn--copy.is-done > .gi { color: var(--success-text); }
+.ga-btn--sm { min-height: var(--h-sm); padding: 4px 12px; font-size: var(--fs-sm); gap: 6px; }
+.ga-btn--lg { min-height: var(--h-lg); padding: 8px 24px; font-size: var(--fs-lg); }
+.ga-btn--icon { width: var(--h-md); padding: 0; }
+.ga-btn--sm.ga-btn--icon { width: var(--h-sm); }
+.ga-btn--lg.ga-btn--icon { width: var(--h-lg); }
+.ga-btn:has(> .gi:first-child):not(.ga-btn--icon) { padding-left: 14px; }
+.ga-btn--sm:has(> .gi:first-child):not(.ga-btn--icon) { padding-left: 10px; }
+.ga-btn--full { width: 100%; }
+/* «Выключено с подсказкой»: кнопка + строка почему (aria-describedby) */
+.gx-why { display: inline-grid; gap: 6px; justify-items: start; max-width: 100%; }
+.gx-why > .gx-hint { max-width: 36ch; }
+.ga-btn--grow { flex: 1 1 0; }
+
+.ga-kbd { display: inline-flex; align-items: center; gap: 2px; height: 22px; padding: 0 6px; border-radius: 6px; background: var(--surface-2); color: var(--text-2); font: 500 12px var(--font); box-shadow: inset 0 0 0 1px var(--border); }
+
+/* ── 2. Статус: gx-chip (точка + слово), метка gx-chip--tag, счётчик gx-badge ──────────────────
+   Статус от акцента не зависит. Тоны: --success / --warning / --danger / --off (выключен) / --checking / --none
+   (нет данных). Метки без точки: --tag (протокол, система; вместо ga-tag и gs-chip), --accent («рекомендуем»),
+   --app (способ подключения), --mono, --tiny. */
+.gx-chip { display: inline-flex; align-items: center; gap: 6px; height: var(--h-chip); padding: 0 10px; border-radius: var(--r-pill); flex: none; max-width: 100%;
+  font: 500 var(--fs-xs)/1 var(--font); white-space: nowrap; background: var(--neutral-soft); color: var(--text-2); }
+.gx-chip::before { content: ""; width: 6px; height: 6px; flex: none; border-radius: 50%; background: currentColor; }
+.gx-chip > span { overflow: hidden; text-overflow: ellipsis; }
+.gx-chip--success { background: var(--success-soft); color: var(--success-text); }
+.gx-chip--warning { background: var(--warning-soft); color: var(--warning-text); }
+.gx-chip--danger { background: var(--danger-soft); color: var(--danger-text); }
+.gx-chip--off::before, .gx-chip--none::before { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+.gx-chip--none { background: transparent; color: var(--text-2); box-shadow: inset 0 0 0 1px var(--border); }
+.gx-chip--checking::before { width: 8px; height: 8px; background: none; border: 1.5px solid currentColor; border-right-color: transparent; animation: gx-spin .9s linear infinite; }
+.gx-chip--accent { background: var(--accent-soft); color: var(--accent-text); }
+.gx-chip--tag { background: var(--surface-2); color: var(--text-2); border-radius: var(--r-tag); }
+.gx-chip--app { height: 20px; padding: 0 7px; font-size: 12px; background: var(--surface-2); color: var(--text-2); box-shadow: inset 0 0 0 1px var(--border); }
+.gx-chip--accent::before, .gx-chip--tag::before, .gx-chip--app::before, .gx-chip:has(> .gi)::before { display: none; }
+.gx-chip:has(> .gi) { padding-left: 8px; }
+.gx-chip--mono { font-family: var(--mono); font-weight: 400; }
+.gx-chip--tiny { height: 20px; padding: 0 8px; font-size: 12px; }
+.gx-chip--app.is-off { background: transparent; box-shadow: none; outline: 1px dashed var(--border-strong); outline-offset: -1px; color: var(--text-2); }
+button.gx-chip { border: 0; font-family: var(--font); cursor: pointer; }
+button.gx-chip:hover { color: var(--foreground); box-shadow: inset 0 0 0 1px var(--accent-text); }
+.gx-badge { display: inline-block; min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--r-pill); background: var(--surface-3); color: var(--text-2); font: 600 12px/20px var(--font); text-align: center; flex: none; font-variant-numeric: tabular-nums; }
+.gx-badge--warning { background: var(--warning-soft); color: var(--warning-text); }
+.gx-badge--danger { background: var(--danger-soft); color: var(--danger-text); }
+.gx-badge--accent { background: var(--accent-soft); color: var(--accent-text); }
+
+/* Сообщение gx-al: жирное начало — что случилось, дальше — что делать. Красный — только ошибка.
+   --success / --warning / --danger / --plain (информация, нейтральная); --row — действие справа; --card — во всю ширину */
+.gx-al { display: flex; gap: var(--sp-3); align-items: flex-start; padding: 14px var(--sp-4); border-radius: var(--r-tile); background: var(--info-soft); color: var(--foreground); line-height: 1.5; min-width: 0; }
+.gx-al__icon { width: 22px; height: 22px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--info-text); }
+.gx-al__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--sp-3); }
+.gx-al__text { color: var(--text-2); overflow-wrap: anywhere; text-wrap: pretty; }
+.gx-al__text b { font-weight: 600; color: var(--foreground); }
+.gx-al__btns { display: flex; gap: var(--sp-2); flex-wrap: wrap; align-items: center; }
+.gx-al--row { align-items: center; }
+.gx-al--row .gx-al__body { flex-direction: row; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: var(--sp-2) var(--sp-4); }
+.gx-al--row .gx-al__text { flex: 1 1 280px; }
+.gx-al--success { background: var(--success-soft); }
+.gx-al--success .gx-al__icon { background: var(--success); color: var(--success-foreground); }
+.gx-al--warning { background: var(--warning-soft); }
+.gx-al--warning .gx-al__icon { background: var(--warning); color: var(--warning-foreground); }
+.gx-al--danger { background: var(--danger-soft); }
+.gx-al--danger .gx-al__icon { background: var(--danger); color: var(--danger-foreground); }
+.gx-al--success .gx-al__text, .gx-al--warning .gx-al__text, .gx-al--danger .gx-al__text, .gx-al--plain .gx-al__text { color: var(--foreground); }
+.gx-al--card { padding: var(--sp-4) var(--sp-5); border-radius: var(--r-card); background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); }
+.gx-al--card.gx-al--success { background: color-mix(in oklab, var(--success) 9%, var(--card-bg)); border-color: transparent; }
+.gx-al--card.gx-al--warning { background: color-mix(in oklab, var(--warning) 12%, var(--card-bg)); border-color: transparent; }
+.gx-al--card.gx-al--danger { background: color-mix(in oklab, var(--danger) 12%, var(--card-bg)); border-color: transparent; }
+.gx-al__code { display: block; padding: 8px 10px; border-radius: var(--r-tag); background: var(--surface); color: var(--foreground); font: 400 12.5px/18px var(--mono); overflow-wrap: anywhere; white-space: pre-wrap; user-select: all; }
+
+/* ── 3. Поля: gx-field > gx-field__l + gx-input + gx-hint ───────────────────
+   Рамка — --border-strong (≥ 3 : 1); фокус — акцент текстом + мягкое кольцо; ошибка — aria-invalid + gx-hint--bad;
+   выключено — disabled + подсказка; «идёт проверка» — gx-field__row с gx-spin. Телефон — шрифт 16 px, высота 44. */
+.gx-field { display: grid; gap: var(--sp-2); min-width: 0; }
+.gx-field__l { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-2); font: 500 var(--fs-sm)/1.4 var(--font); }
+.gx-opt { font-weight: 400; color: var(--text-2); }
+.gx-field__row { display: flex; flex-wrap: wrap; gap: var(--sp-2); min-width: 0; align-items: center; }
+.gx-field__row > .gx-input, .gx-field__row > .gx-select { flex: 1 1 200px; min-width: min(100%, 200px); }
+.gx-field__row > .ga-btn:not(.ga-btn--sm) { min-height: var(--h-field); }
+.gx-field__row > .ga-btn--icon:not(.ga-btn--sm) { width: var(--h-field); }
+.gx-input { height: var(--h-field); padding: 0 14px; border: 0; border-radius: var(--r-field); background: var(--field-background); color: var(--foreground); box-shadow: var(--field-shadow);
+  font: 400 var(--fs) var(--font); width: 100%; min-width: 0; transition: box-shadow var(--dur), background var(--dur); }
+.gx-input:hover:not([disabled]) { background: var(--field-hover); }
+.gx-input:focus, .gx-input:focus-visible { outline: none; box-shadow: var(--field-focus); }
+.gx-input[aria-invalid="true"] { box-shadow: var(--field-error); }
+.gx-input[disabled] { opacity: var(--disabled-opacity); cursor: not-allowed; }
+.gx-input[readonly] { background: var(--tile-bg); box-shadow: none; }
+.gx-input.is-flash { animation: gx-flash 2s var(--ease); }
+.gx-input--mono { font: 400 var(--fs) var(--mono); }
+.gx-input--num { font-variant-numeric: tabular-nums; }
+textarea.gx-input { height: auto; min-height: 96px; padding: 10px 14px; font: 400 var(--fs-sm)/20px var(--mono); resize: vertical; overflow-wrap: anywhere; }
+textarea.gx-input::placeholder { font-family: var(--font); }
+.gx-select { position: relative; display: block; min-width: 0; }
+.gx-select > select.gx-input { padding-right: 38px; appearance: none; -webkit-appearance: none; cursor: pointer; }
+.gx-select::after { content: ""; position: absolute; right: 14px; top: 50%; width: 14px; height: 14px; margin-top: -7px; background: var(--text-2); pointer-events: none;
+  -webkit-mask: url(../assets/icons/chevron-down.svg) center / contain no-repeat; mask: url(../assets/icons/chevron-down.svg) center / contain no-repeat; }
+.gx-hint { font-size: var(--fs-xs); line-height: 17px; color: var(--text-2); text-wrap: pretty; overflow-wrap: anywhere; }
+.gx-hint--bad { color: var(--danger-text); }
+.gx-hint--good { color: var(--success-text); }
+.gx-search-in { display: flex; align-items: center; gap: var(--sp-2); min-width: 0; height: var(--h-md); padding: 0 12px; border-radius: var(--r-field); background: var(--field-background); box-shadow: var(--field-shadow); color: var(--text-2); }
+.gx-search-in:focus-within { box-shadow: var(--field-focus); }
+.gx-search-in > input { flex: 1; min-width: 0; align-self: stretch; border: 0; padding: 0; background: transparent; color: var(--foreground); font: 400 var(--fs) var(--font); outline: none; }
+.gx-search-in > .ga-kbd { flex: none; }
+
+/* ── 4. Карточка: gx-card — по размеру содержимого (align-content: start), высоту не растягиваем ─────
+   Части: __head (__lead: __ic 40 + __tt: __title Rubik 17 + __sub) · __acts (справа в шапке) · тело ·
+   __actions (ряд действий, слева направо по важности) · __danger (опасная зона, последней). --list — карточка-список. */
+.gx-card { background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); border-radius: var(--r-card); padding: var(--card-p);
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--card-gap); min-width: 0; align-content: start; }
+.gx-card--span { grid-column: 1 / -1; }
+.gx-card--list { padding-top: var(--sp-2); padding-bottom: var(--sp-2); gap: 0; }
+.gx-card--list > .gx-card__head { padding: var(--sp-4) 0 var(--sp-3); border-bottom: 1px solid var(--separator); }
+.gx-card__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-3) 14px; flex-wrap: wrap; }
+.gx-card__lead { display: flex; gap: 14px; align-items: flex-start; min-width: 0; flex: 1 1 240px; }
+.gx-card__ic { width: 40px; height: 40px; flex: none; border-radius: var(--r-field); background: var(--accent-soft); color: var(--accent-text); display: grid; place-items: center; }
+.gx-card__ic--muted { background: var(--surface-2); color: var(--text-2); }
+.gx-card__ic--warning { background: var(--warning-soft); color: var(--warning-text); }
+.gx-card__ic--danger { background: var(--danger-soft); color: var(--danger-text); }
+.gx-card__ic--success { background: var(--success-soft); color: var(--success-text); }
+.gx-card__tt { min-width: 0; display: grid; gap: 2px; align-content: center; min-height: 40px; }
+.gx-card__lead:not(:has(.gx-card__ic)) .gx-card__tt { min-height: 0; }
+.gx-card__titlerow { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+.gx-card__title { font: 600 var(--fs-h3)/1.3 var(--font-head); overflow-wrap: anywhere; }
+.gx-card__sub { color: var(--text-2); font-size: var(--fs-sm); line-height: 1.45; text-wrap: pretty; }
+.gx-card__acts { display: flex; gap: var(--sp-2); flex-wrap: wrap; align-items: center; margin-left: auto; }
+.gx-card__actions { display: flex; gap: var(--sp-2); flex-wrap: wrap; align-items: center; min-width: 0; }
+.gx-card__note { color: var(--text-2); font-size: var(--fs-sm); margin-left: var(--sp-1); }
+.gx-card__danger { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3) var(--sp-4); flex-wrap: wrap; padding-top: var(--sp-5); border-top: 1px solid var(--separator); min-width: 0; }
+.gx-card__danger-t { flex: 1 1 240px; min-width: 0; display: grid; gap: 2px; }
+.gx-card__danger-t > b { font-weight: 600; }
+.gx-card__danger-t > span { color: var(--text-2); font-size: var(--fs-sm); line-height: 1.45; text-wrap: pretty; }
+.gx-card.is-busy { opacity: .7; pointer-events: none; }
+/* Две независимые стопки (без растяжения по высоте); сетка рядов — соседи одной высоты только в одном ряду */
+.gx-main { container: gxmain / inline-size; }
+.gx-cols { display: flex; gap: var(--gap); align-items: flex-start; min-width: 0; }
+.gx-cols > .gx-col { flex: 1 1 0; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); container: gxcol / inline-size; }
+@container gxmain (max-width: 840px) { .gx-cols { flex-direction: column; align-items: stretch; } }
+.gx-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: var(--gap); align-items: start; min-width: 0; }
+.gx-row--stretch { align-items: stretch; }
+.gx-row > * { min-width: 0; }
+
+/* ── 5. Списки: gx-list (строки) и gx-kv (подпись — значение) ───────────────
+   gx-list: одна сетка — [значок] · текст · статус (своя колонка) · кнопки. Строка-ссылка — a/button.gx-list__i.
+   На телефоне кнопки уходят под текст; список людей и устройств на телефоне — строками (мобильная оболочка). */
+.gx-list { display: grid; grid-template-columns: auto minmax(0, 1fr) max-content auto; min-width: 0; }
+.gx-list__i { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; padding: var(--row) 0; border: 0; border-top: 1px solid var(--separator); min-width: 0;
+  background: none; color: inherit; font: inherit; text-align: left; text-decoration: none; }
+.gx-list__i:first-child { border-top: 0; }
+a.gx-list__i, button.gx-list__i { cursor: pointer; margin: 0 calc(var(--sp-2) * -1); padding-inline: var(--sp-2); border-radius: var(--r-field); transition: background var(--dur); }
+a.gx-list__i:hover, button.gx-list__i:hover { background: var(--surface-hover); }
+a.gx-list__i + .gx-list__i, button.gx-list__i + .gx-list__i { border-top-color: var(--separator); }
+.gx-list__i.is-dim .gx-list__ic, .gx-list__i.is-dim .gx-list__b { opacity: .6; }
+.gx-list__i.is-cur { background: var(--accent-soft); }
+.gx-list__ic { grid-column: 1; width: 36px; height: 36px; margin-right: var(--sp-3); flex: none; border-radius: var(--r-field); background: var(--surface-2); color: var(--text-2); display: grid; place-items: center; font: 600 13px var(--font-head); }
+.gx-list__ic--round { border-radius: 50%; }
+.gx-list__ic--success { background: var(--success-soft); color: var(--success-text); }
+.gx-list__ic--warning { background: var(--warning-soft); color: var(--warning-text); }
+.gx-list__ic--danger { background: var(--danger-soft); color: var(--danger-text); }
+.gx-list__ic--accent { background: var(--accent-soft); color: var(--accent-text); }
+.gx-list__b { grid-column: 2; min-width: 0; display: grid; gap: 2px; }
+.gx-list__t { display: flex; align-items: center; gap: 6px 8px; flex-wrap: wrap; min-width: 0; }
+.gx-list__title { font: 500 var(--fs)/20px var(--font); overflow-wrap: anywhere; min-width: 0; }
+.gx-list__title--mono { font: 400 13.5px/20px var(--mono); }
+.gx-list__meta { font-size: var(--fs-sm); line-height: 18px; color: var(--text-2); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.gx-list__st { grid-column: 3; display: flex; gap: 4px; flex-wrap: wrap; padding-left: var(--sp-4); min-width: 128px; }
+.gx-list__btns { grid-column: 4; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; align-items: center; padding-left: var(--sp-3); }
+.gx-list__go { grid-column: 4; padding-left: var(--sp-3); color: var(--text-2); display: grid; place-items: center; }
+.gx-list--plain .gx-list__st { min-width: 0; }
+@container gxcol (max-width: 420px) {
+  .gx-list__st { min-width: 0; padding-left: var(--sp-3); }
+  .gx-list__btns { grid-column: 2 / -1; padding: var(--sp-2) 0 0; justify-content: flex-start; }
+}
+
+.gx-kv { display: grid; grid-template-columns: var(--kv-label) minmax(0, 1fr) max-content; min-width: 0; }
+.gx-kv__row { display: contents; }
+.gx-kv__k, .gx-kv__v, .gx-kv__end { padding: var(--sp-3) 0; border-top: 1px solid var(--separator); min-width: 0; }
+.gx-kv__v, .gx-kv__end { padding-left: var(--sp-4); }
+.gx-kv__row:first-child > * { border-top: 0; }
+.gx-kv__k { color: var(--text-2); overflow-wrap: anywhere; }
+.gx-kv__v { display: flex; align-items: flex-start; gap: var(--sp-2); flex-wrap: wrap; color: var(--foreground); }
+.gx-kv__text { flex: 1 1 0; min-width: 0; overflow-wrap: anywhere; }
+.gx-kv__s { display: block; flex-basis: 100%; font: 400 var(--fs-sm)/1.45 var(--font); color: var(--text-3); overflow-wrap: anywhere; }
+.gx-kv__v--main .gx-kv__text { font-weight: 600; }
+.gx-kv__v--mono .gx-kv__text { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; }
+.gx-kv__v--wrap .gx-kv__text { white-space: normal; overflow-wrap: anywhere; }
+.gx-kv__copy { width: 32px; height: 32px; margin: -6px 0; flex: none; border: 0; border-radius: var(--r-pill); background: var(--surface-2); color: var(--text-2); display: grid; place-items: center; cursor: pointer; transition: background var(--dur), color var(--dur); }
+.gx-kv__copy:hover { background: var(--surface-3); color: var(--foreground); }
+.gx-kv__copy:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.gx-kv__copy.is-done { color: var(--success-text); }
+.gx-kv__end { display: flex; align-items: flex-start; gap: 6px; flex-wrap: wrap; }
+.gx-kv--nolabel { grid-template-columns: minmax(0, 1fr) max-content; }
+.gx-kv--stack { grid-template-columns: minmax(0, 1fr) auto; }
+.gx-kv--stack .gx-kv__k { grid-column: 1 / -1; padding-bottom: 2px; }
+.gx-kv--stack .gx-kv__v, .gx-kv--stack .gx-kv__end { padding-top: 0; border-top: 0; }
+.gx-kv--stack .gx-kv__v { padding-left: 0; }
+.gx-kv--stack .gx-kv__end { justify-content: flex-end; }
+@container gxcol (max-width: 380px) {
+  .gx-kv:not(.gx-kv--nolabel) { grid-template-columns: minmax(0, 1fr) auto; }
+  .gx-kv:not(.gx-kv--nolabel) .gx-kv__k { grid-column: 1 / -1; padding-bottom: 2px; }
+  .gx-kv:not(.gx-kv--nolabel) .gx-kv__v, .gx-kv:not(.gx-kv--nolabel) .gx-kv__end { padding-top: 0; border-top: 0; }
+  .gx-kv:not(.gx-kv--nolabel) .gx-kv__v { padding-left: 0; }
+  .gx-kv__v--mono .gx-kv__text { white-space: normal; overflow-wrap: anywhere; }
+}
+
+/* ── 6. Плитки: gx-tiles > gx-tile (показатель) и gx-cards > gx-tc (объект с действиями) ────────────
+   gx-tile — подпись, значение, пояснение; по размеру содержимого. gx-tc — плитки одного ряда одной высоты,
+   действия прижаты к низу; ряд --row: кнопки слева, значки справа; is-cur — выбранная, is-danger — сломана. */
+.gx-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: var(--sp-3); align-items: start; }
+.gx-tile { display: grid; gap: 4px; align-content: start; padding: 12px 14px; border-radius: var(--r-field); background: var(--tile-bg); color: var(--foreground); min-width: 0; }
+.gx-tile__k { display: flex; align-items: center; gap: 6px; font-size: var(--fs-xs); line-height: 16px; color: var(--text-2); }
+.gx-tile__v { font: 500 var(--fs)/20px var(--font); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.gx-tile__v--big { font: 600 22px/28px var(--font-head); }
+.gx-tile__v--mono { font: 400 13px/20px var(--mono); }
+.gx-tile__u { color: var(--text-2); font: 400 var(--fs-sm) var(--font); margin-left: 4px; }
+.gx-tile__s { font-size: var(--fs-xs); line-height: 16px; color: var(--text-2); text-wrap: pretty; }
+.gx-tile--success { background: var(--success-soft); }
+.gx-tile--warning { background: var(--warning-soft); }
+.gx-tile--danger { background: var(--danger-soft); }
+.gx-tile--success .gx-tile__k, .gx-tile--success .gx-tile__s { color: var(--success-text); }
+.gx-tile--warning .gx-tile__k, .gx-tile--warning .gx-tile__s { color: var(--warning-text); }
+.gx-tile--danger .gx-tile__k, .gx-tile--danger .gx-tile__s { color: var(--danger-text); }
+
+.gx-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 296px), 1fr)); gap: var(--sp-3); align-items: stretch; }
+.gx-tc { display: flex; flex-direction: column; gap: var(--sp-3); padding: var(--sp-4); border-radius: var(--r-tile); background: var(--tile-bg); min-width: 0; transition: box-shadow var(--dur); }
+.gx-tc.is-cur { background: var(--accent-soft); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.gx-tc.is-danger { box-shadow: inset 0 0 0 1.5px var(--danger); }
+.gx-tc.is-dim > :not(.gx-tc__btns) { opacity: .72; }
+.gx-tc__head { display: flex; align-items: flex-start; gap: 10px; row-gap: 6px; flex-wrap: wrap; min-width: 0; }
+.gx-tc__ic { width: 36px; height: 36px; flex: none; border-radius: var(--r-field); background: var(--accent-soft); color: var(--accent-text); display: grid; place-items: center; }
+.gx-tc__ic--muted { background: var(--surface-3); color: var(--text-2); }
+.gx-tc__ic--danger { background: var(--danger-soft); color: var(--danger-text); }
+.gx-tc__tt { flex: 1 1 120px; min-width: 0; display: grid; }
+.gx-tc__title { font: 600 var(--fs)/20px var(--font); overflow-wrap: break-word; }
+.gx-tc__sub { font: 400 var(--fs-sm)/18px var(--font); color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-tc__sub--mono { font-family: var(--mono); font-size: 12.5px; }
+.gx-tc__chips { display: flex; gap: 4px; flex-wrap: wrap; flex: none; }
+.gx-tc__rows { display: grid; }
+.gx-tc__r { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 5px 0; font-size: var(--fs-sm); line-height: 18px; min-width: 0; }
+.gx-tc__r > span:first-child { color: var(--text-2); flex: none; }
+.gx-tc__r > span:last-child { text-align: right; overflow-wrap: anywhere; min-width: 0; font-variant-numeric: tabular-nums; }
+.gx-tc__btns { display: flex; gap: 4px var(--sp-2); flex-wrap: wrap; align-items: center; margin-top: auto; }
+.gx-tc__btns--row { flex-wrap: nowrap; align-items: flex-start; padding-top: var(--sp-3); border-top: 1px solid var(--separator); }
+.gx-tc__acts { display: flex; flex-wrap: wrap; align-items: center; gap: inherit; flex: 1 1 auto; min-width: 0; }
+
+/* ── 7. Телефон: цели касания ≥ 44 px, поля 16 px ───────────────────────── */
+[data-device="phone"] .ga-btn { min-height: var(--touch); }
+[data-device="phone"] .ga-btn--icon { width: var(--touch); }
+[data-device="phone"] .gx-card__actions .ga-btn:not(.ga-btn--sm), [data-device="phone"] .gx-card__danger .ga-btn { min-height: var(--h-lg); }
+[data-device="phone"] .gx-input, [data-device="phone"] .gx-search-in { height: var(--touch); font-size: 16px; }
+[data-device="phone"] .gx-search-in > input, [data-device="phone"] textarea.gx-input { font-size: 16px; }
+[data-device="phone"] textarea.gx-input { height: auto; }
+[data-device="phone"] .gx-kv__copy { width: var(--touch); height: var(--touch); margin: -10px 0; }
+[data-device="phone"] a.gx-list__i, [data-device="phone"] button.gx-list__i { min-height: 56px; }
+[data-device="phone"] .gx-cols { flex-direction: column; align-items: stretch; }
+[data-device="phone"] .gx-card__danger { flex-direction: column; align-items: stretch; }
+[data-device="phone"] .gx-card__danger .ga-btn { align-self: flex-start; }
+[data-device="phone"] .gx-list__st { min-width: 0; padding-left: var(--sp-3); }
+[data-device="phone"] .gx-list__btns { grid-column: 2 / -1; padding: var(--sp-2) 0 0; justify-content: flex-start; }
+[data-device="phone"] .gx-kv { grid-template-columns: minmax(0, 1fr) auto; }
+[data-device="phone"] .gx-kv__k { grid-column: 1 / -1; padding-bottom: 2px; }
+[data-device="phone"] .gx-kv__v, [data-device="phone"] .gx-kv__end { padding-top: 0; border-top: 0; }
+[data-device="phone"] .gx-kv__v { padding-left: 0; }

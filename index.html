@@ -1,158 +1,159 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-hero data-brand="goamnezia" data-theme="dark" data-device="desktop">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://raw.githubusercontent.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://raw.githubusercontent.com; img-src 'self' data:; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
 <title>Aegis — конфигуратор</title>
 <meta name="description" content="Списки Яндекса, российских сервисов и ВК для защиты VPN: готовые правила для Xray, mihomo, Happ, INCY, Hiddify, Karing, Shadowrocket, AmneziaVPN, WireGuard, 3X-UI.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%233b6ef5' d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z'/%3E%3C/svg%3E">
-<style>
-:root {
-  --bg: #f6f7f9; --card: #ffffff; --ink: #14171c; --muted: #5b6370; --line: #e3e6eb;
-  --accent: #3b6ef5; --accent-ink: #ffffff; --accent-soft: #e9efff; --code: #f1f3f6;
-  --ok: #1f8a4c; --warn: #a15c00; --warn-soft: #fff4e2; --radius: 12px;
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1216; --card: #171b21; --ink: #e8ebf0; --muted: #9aa3b0; --line: #2a3039;
-    --accent: #6d93ff; --accent-ink: #0b1020; --accent-soft: #1d2740; --code: #0c0f13;
-    --ok: #4cc07f; --warn: #f0b35a; --warn-soft: #2a2114;
-    color-scheme: dark;
-  }
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-a { color: var(--accent); }
-.wrap { max-width: 920px; margin: 0 auto; padding: 24px 16px 64px; }
-header { display: flex; gap: 14px; align-items: center; margin: 8px 0 6px; }
-header svg { flex: none; }
-h1 { font-size: 28px; line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
-.tag { color: var(--muted); margin: 0 0 18px; }
-.meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
-.pill { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px;
-  font-size: 14px; color: var(--muted); }
-.pill b { color: var(--ink); font-weight: 600; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px;
-  margin: 0 0 18px; }
-h2 { font-size: 20px; margin: 0 0 14px; }
-h3 { font-size: 15px; margin: 18px 0 8px; color: var(--muted); font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.04em; }
-h3:first-child { margin-top: 0; }
-.side { font-size: 14px; color: var(--muted); margin: 10px 0 6px; }
-.opts { display: flex; flex-wrap: wrap; gap: 8px; }
-.opt { position: relative; max-width: 100%; }
-.opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-.opt span { display: block; border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; cursor: pointer;
-  background: var(--card); user-select: none; }
-.opt small { display: block; color: var(--muted); font-size: 13px; }
-.opt input:checked + span { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
-.opt input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
-.opt input:disabled { cursor: not-allowed; }
-.opt input:disabled + span { cursor: not-allowed; opacity: 0.55; border-style: dashed; }
-.result { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 18px; }
-ol.steps { padding-left: 22px; margin: 0; }
-ol.steps > li { margin: 0 0 16px; overflow-wrap: anywhere; }
-.note { background: var(--warn-soft); color: var(--ink); border-left: 3px solid var(--warn); border-radius: 8px;
-  padding: 10px 12px; margin: 10px 0; font-size: 15px; overflow-wrap: anywhere; }
-.docs { font-size: 15px; color: var(--muted); margin: 12px 0 0; overflow-wrap: anywhere; }
-.codebox { position: relative; margin: 8px 0; }
-pre { background: var(--code); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 0;
-  overflow: auto; max-height: 360px; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  white-space: pre; }
-pre.wrap-lines { white-space: pre-wrap; overflow-wrap: anywhere; }
-.codebox pre.wrap-lines { padding-top: 38px; }
-.btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; }
-button, .dl { font: inherit; font-size: 14px; border-radius: 8px; padding: 6px 12px; cursor: pointer;
-  border: 1px solid var(--line); background: var(--card); color: var(--ink); text-decoration: none; display: inline-block; }
-button.primary, a.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-button:hover, .dl:hover { border-color: var(--accent); }
-.copy { position: absolute; top: 8px; right: 8px; padding: 3px 10px; font-size: 13px; }
-.qrbox { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; margin: 10px 0 0; }
-svg.qr { width: 280px; max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); flex: none; }
-.qrbox p { flex: 1 1 220px; margin: 0; }
-table { width: 100%; border-collapse: collapse; font-size: 15px; }
-th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
-th { color: var(--muted); font-weight: 600; font-size: 13px; }
-td.n { text-align: right; font-variant-numeric: tabular-nums; }
-.scroll { overflow-x: auto; }
-.muted { color: var(--muted); }
-code { font: 0.92em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--code);
-  padding: 1px 5px; border-radius: 5px; overflow-wrap: anywhere; }
-footer { color: var(--muted); font-size: 14px; }
-@media (max-width: 560px) { h1 { font-size: 24px; } .card { padding: 16px; } }
-</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23007da4' d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="ds/css/tokens.css">
+<link rel="stylesheet" href="ds/brands/goamnezia.css">
+<link rel="stylesheet" href="ds/css/components.css">
+<link rel="stylesheet" href="ds/css/controls.css">
+<link rel="stylesheet" href="ds/css/shell.css">
+<link rel="stylesheet" href="ds/css/patterns.css">
+<link rel="stylesheet" href="aegis.css">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path fill="var(--accent)" d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path fill="var(--card)" d="m10.6 15.2-3-3 1.4-1.4 1.6 1.6 4.4-4.4 1.4 1.4z"/></svg>
-    <h1>Aegis</h1>
-  </header>
-  <p class="tag">Списки Яндекса, российских сервисов и ВК, чтобы приложения на телефоне не узнавали адрес вашего VPN.
-    Выберите списки, приложение и что сделать, — страница покажет готовые правила и куда их вставить.</p>
-  <div class="meta" id="meta"><span class="pill">Загружаю сведения о списках…</span></div>
+<main class="ae-page" id="page">
 
-  <section class="card" aria-labelledby="cfg-h">
-    <h2 id="cfg-h">Конфигуратор</h2>
-    <div id="cfg">
-      <h3 id="lists-h">1. Что фильтровать</h3>
-      <div class="opts" id="lists" role="group" aria-labelledby="lists-h"></div>
-      <p class="muted" id="lists-note">В списке «ВК» есть и сайты, которые не порталы VK: «ВК — блокировать» закроет и их.
-        Перечень — в <a href="https://github.com/anten-ka/aegis#списки">README</a>.</p>
-
-      <h3 id="apps-h">2. Чем пользуетесь</h3>
-      <div role="radiogroup" aria-labelledby="apps-h">
-        <p class="side">На устройстве</p>
-        <div class="opts" id="apps-c"></div>
-        <p class="side">На сервере</p>
-        <div class="opts" id="apps-s"></div>
+  <header class="ae-head" id="head">
+    <div class="ae-head__in">
+      <div class="ae-brand">
+        <span class="ae-logo"><i class="gm gm--shield gm--xxl" aria-hidden="true"></i></span>
+        <h1>Aegis</h1>
       </div>
-
-      <h3 id="act-h">3. Что сделать</h3>
-      <div class="opts" id="action" role="radiogroup" aria-labelledby="act-h"></div>
-      <div class="opts" id="extra" style="margin-top:8px"></div>
+      <p class="ae-lead">Списки Яндекса, российских сервисов и ВК, чтобы приложения на телефоне не узнавали адрес вашего VPN.
+        Выберите списки, приложение и что сделать, — страница покажет готовые правила и куда их вставить.</p>
+      <div class="ae-meta">
+        <span id="meta" class="ae-contents"><span class="gx-chip gx-chip--tag"><i class="gm gm--clock gm--sm" aria-hidden="true"></i><span>Загружаю сведения о списках…</span></span></span>
+        <a class="ga-btn ga-btn--link" href="https://github.com/anten-ka/aegis" target="_blank" rel="noopener">github.com/anten-ka/aegis<i class="gm gm--external gm--sm" aria-hidden="true"></i></a>
+      </div>
     </div>
+  </header>
 
-    <div class="result" id="out" aria-live="polite"></div>
+  <!-- The two columns share their own row box: sticky columns stop at its end and never ride over the cards below. -->
+  <div class="ae-cols">
+  <div class="ae-left" id="left">
+    <section class="gx-card ae-step" id="s1" aria-labelledby="s1-h">
+      <div class="ae-h">
+        <span class="gx-step__n" aria-hidden="true">1</span>
+        <h2 id="s1-h">Что фильтровать</h2>
+        <span class="ae-h__aside">можно несколько</span>
+      </div>
+      <div class="ae-grid ae-grid--lists" id="lists" role="group" aria-labelledby="s1-h"></div>
+      <p class="ae-why" id="lists-note"><i class="gm gm--info gm--sm" aria-hidden="true"></i><span id="lists-note-t">В списке «ВК» есть и сайты, которые не порталы VK: «ВК — блокировать» закроет и их.
+        Перечень — в <a href="https://github.com/anten-ka/aegis#списки" target="_blank" rel="noopener">README</a>.</span></p>
+    </section>
+
+    <section class="gx-card ae-step" id="s2" aria-labelledby="s2-h">
+      <div class="ae-h">
+        <span class="gx-step__n" aria-hidden="true">2</span>
+        <h2 id="s2-h">Чем пользуетесь</h2>
+      </div>
+      <div class="ae-groups" role="radiogroup" aria-labelledby="s2-h" id="apps">
+        <div class="ae-group">
+          <p class="ae-sub"><i class="gm gm--phone gm--sm" aria-hidden="true"></i>На устройстве</p>
+          <div class="ae-grid ae-grid--apps" id="apps-c"></div>
+        </div>
+        <div class="ae-group">
+          <p class="ae-sub"><i class="gm gm--server gm--sm" aria-hidden="true"></i>На сервере</p>
+          <div class="ae-grid ae-grid--apps" id="apps-s"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gx-card ae-step" id="s3" aria-labelledby="s3-h">
+      <div class="ae-h">
+        <span class="gx-step__n" aria-hidden="true">3</span>
+        <h2 id="s3-h">Что сделать</h2>
+      </div>
+      <div class="ae-grid" id="action" role="radiogroup" aria-labelledby="s3-h"></div>
+      <div id="whys"></div>
+      <div class="ae-extra" id="extra" hidden></div>
+    </section>
+
+    <section class="gx-card ae-stats" id="stats-card" aria-labelledby="st-h">
+      <h2 id="st-h" class="gx-card__title">Что в списках</h2>
+      <div id="stats"><p class="ae-muted">Загружаю…</p></div>
+      <p class="ae-small">Подробно по каждому сервису — в <a href="https://github.com/anten-ka/aegis/blob/main/summary.md" target="_blank" rel="noopener">сводке сборки</a>.</p>
+    </section>
+  </div>
+
+  <div class="ae-right" id="right">
+    <section class="gx-card ae-res" id="res" tabindex="-1" aria-labelledby="res-h">
+      <div class="ae-res__head">
+        <div class="ae-h">
+          <span class="gx-step__n"><i class="gm gm--phone gm--sm" id="res-ic" aria-hidden="true"></i></span>
+          <h2 id="res-h">Правила</h2>
+        </div>
+        <p class="ae-res__sub" id="res-sub"></p>
+      </div>
+      <div class="ae-out" id="out" aria-live="polite"></div>
+    </section>
+  </div>
+  </div>
+
+  <section class="gx-card ae-how" aria-labelledby="how-h">
+    <h2 id="how-h" class="gx-card__title">Как собираются списки</h2>
+    <div class="ae-how__cols">
+      <div class="ae-how__a">
+        <p>Раз в сутки GitHub Actions берёт адреса и домены сервисов с
+          <a href="https://russia.iplist.opencck.org" target="_blank" rel="noopener">russia.iplist.opencck.org</a> и по каждой сети спрашивает
+          <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPE</a>, кому она принадлежит.</p>
+        <div class="gx-kv">
+          <div class="gx-kv__row"><div class="gx-kv__k">Где адрес</div><div class="gx-kv__v"><span class="gx-kv__text">Что попадает в список</span></div><div class="gx-kv__end"></div></div>
+          <div class="gx-kv__row"><div class="gx-kv__k">Собственная сеть сервиса</div><div class="gx-kv__v"><span class="gx-kv__text">Все сети этого владельца целиком</span></div><div class="gx-kv__end"></div></div>
+          <div class="gx-kv__row"><div class="gx-kv__k">У оператора, в облаке, у хостера</div><div class="gx-kv__v"><span class="gx-kv__text">Только сам адрес</span></div><div class="gx-kv__end"></div></div>
+          <div class="gx-kv__row"><div class="gx-kv__k">Общий CDN или защита от атак</div><div class="gx-kv__v"><span class="gx-kv__text">Ничего — там чужие сайты</span></div><div class="gx-kv__end"></div></div>
+          <div class="gx-kv__row"><div class="gx-kv__k">Владелец ещё не разобран</div><div class="gx-kv__v"><span class="gx-kv__text">Ничего, пока его не разберут</span></div><div class="gx-kv__end"></div></div>
+        </div>
+      </div>
+      <div class="ae-how__b">
+        <p>ВК: целиком — только собственные сети порталов VK (vk.com, mail.ru, ok.ru, dzen.ru, max.ru, rustore.ru и
+          других). Облако VK Cloud — только адресами: там сайты чужих компаний. Сайт-источник кладёт в группу vk и сайты,
+          которые не порталы VK, — они названы в первом шаге.</p>
+        <p>Сети GitHub и Telegram не попадают никогда. Домены проверяются: общие зоны вроде
+          com.ru или msk.ru не принимаются, резкий рост или убыль списка останавливает сборку. Если сборка что-то не
+          проверила, она не публикуется — остаются вчерашние файлы.</p>
+      </div>
+    </div>
   </section>
 
-  <section class="card" aria-labelledby="st-h">
-    <h2 id="st-h">Что в списках</h2>
-    <div class="scroll"><table id="stats"><tbody><tr><td class="muted">Загружаю…</td></tr></tbody></table></div>
-    <p class="muted" style="margin:12px 0 0">Подробно по каждому сервису — в <a href="https://github.com/anten-ka/aegis/blob/main/summary.md">сводке сборки</a>.</p>
-  </section>
-
-  <section class="card" aria-labelledby="how-h">
-    <h2 id="how-h">Как собираются списки</h2>
-    <p style="margin-top:0">Раз в сутки GitHub Actions берёт адреса и домены сервисов с
-      <a href="https://russia.iplist.opencck.org">russia.iplist.opencck.org</a> и по каждой сети спрашивает
-      <a href="https://stat.ripe.net">RIPE</a>, кому она принадлежит.</p>
-    <div class="scroll"><table>
-      <thead><tr><th>Где адрес</th><th>Что попадает в список</th></tr></thead>
-      <tbody>
-        <tr><td>Собственная сеть сервиса</td><td>Все сети этого владельца целиком</td></tr>
-        <tr><td>У оператора, в облаке, у хостера</td><td>Только сам адрес</td></tr>
-        <tr><td>Общий CDN или защита от атак</td><td>Ничего — там чужие сайты</td></tr>
-        <tr><td>Владелец ещё не разобран</td><td>Ничего, пока его не разберут</td></tr>
-      </tbody>
-    </table></div>
-    <p>ВК: целиком — только собственные сети порталов VK (vk.com, mail.ru, ok.ru, dzen.ru, max.ru, rustore.ru и
-      других). Облако VK Cloud — только адресами: там сайты чужих компаний. Сайт-источник кладёт в группу vk и сайты,
-      которые не порталы VK, — они названы в первом шаге.</p>
-    <p style="margin-bottom:0">Сети GitHub и Telegram не попадают никогда. Домены проверяются: общие зоны вроде
-      com.ru или msk.ru не принимаются, резкий рост или убыль списка останавливает сборку. Если сборка что-то не
-      проверила, она не публикуется — остаются вчерашние файлы.</p>
-  </section>
-
-  <footer>
-    <a href="https://github.com/anten-ka/aegis">github.com/anten-ka/aegis</a> · данные:
-    <a href="https://github.com/rekryt/iplist">rekryt/iplist</a> (MIT), RIPEstat ·
-    QR: <a href="https://github.com/kazuhikoarase/qrcode-generator">qrcode-generator</a> (MIT) ·
-    ошибку владельца сети — в <a href="https://github.com/anten-ka/aegis/issues">issues</a>.
+  <footer class="ae-foot">
+    <p>Aegis — открытые списки адресов и доменов российских сервисов для защиты VPN, собираются раз в сутки.
+      Данные: <a href="https://russia.iplist.opencck.org" target="_blank" rel="noopener">russia.iplist.opencck.org</a>
+      (<a href="https://github.com/rekryt/iplist" target="_blank" rel="noopener">rekryt/iplist</a>, MIT) и RIPEstat.
+      QR — <a href="https://github.com/kazuhikoarase/qrcode-generator" target="_blank" rel="noopener">qrcode-generator</a> (MIT).</p>
+    <div class="ae-foot__links">
+      <a class="ga-btn ga-btn--link" href="https://github.com/anten-ka/aegis" target="_blank" rel="noopener">github.com/anten-ka/aegis</a>
+      <a class="ga-btn ga-btn--link" href="https://github.com/anten-ka/aegis/issues" target="_blank" rel="noopener">Ошибка владельца сети — в issues</a>
+      <a class="ga-btn ga-btn--link" href="https://boosty.to/anten-ka/purchase/3134076?ssource=DIRECT&amp;share=subscription_link" target="_blank" rel="noopener">Клуб antenka</a>
+    </div>
   </footer>
+</main>
+
+<div class="ae-jump" id="jump" hidden>
+  <div class="ae-jump__t"><b>Правила готовы</b><span id="jump-sub"></span></div>
+  <button type="button" class="ga-btn ga-btn--primary" id="jump-btn">Показать<i class="gm gm--chevron-down gm--sm" aria-hidden="true"></i></button>
+</div>
+
+<!-- Club dog: the sticker, its link and the mode are set by app.js; nothing here loads from other hosts. -->
+<div class="ae-dog" id="dog" hidden>
+  <a class="ae-dog__pic" id="dog-pic" target="_blank" rel="noopener"><img id="dog-img" alt="" width="512" height="512" decoding="async"></a>
+  <div class="ae-dog__card">
+    <a class="ae-dog__qr" id="dog-qr" href="https://boosty.to/anten-ka/purchase/3134076?ssource=DIRECT&amp;share=subscription_link" target="_blank" rel="noopener" aria-label="QR-код: вступить в клуб antenka"></a>
+    <a class="ae-dog__join" href="https://boosty.to/anten-ka/purchase/3134076?ssource=DIRECT&amp;share=subscription_link" target="_blank" rel="noopener">ВСТУПИТЬ В КЛУБ</a>
+  </div>
+  <a class="ae-dog__club" href="https://boosty.to/anten-ka/purchase/3134076?ssource=DIRECT&amp;share=subscription_link" target="_blank" rel="noopener">В КЛУБ →</a>
+  <button type="button" class="ae-dog__hide" id="dog-hide">спрятать пса →</button>
+</div>
+<button type="button" class="ae-dog-tab" id="dog-tab" aria-label="Показать клубного пса" title="Клуб antenka" hidden><span class="ae-face" aria-hidden="true"></span></button>
+<div class="ae-dog-mini" id="dog-mini" hidden>
+  <a class="ae-face" id="dog-mini-pic" target="_blank" rel="noopener"></a>
+  <button type="button" class="ae-dog-mini__x" id="dog-mini-x" aria-label="Спрятать клубного пса" title="Спрятать">✕</button>
 </div>
 
 <script src="vendor/qrcode-generator/qrcode.js"></script>

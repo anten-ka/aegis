@@ -1,0 +1,18 @@
+/* go-ds · бренд goAmnezia Pro — только акцент: синий oklch(.54 .13 222) в обеих темах (было .6 — белый 3,6 : 1;
+   теперь 4,7 : 1). Акцент текстом: тёмная — 60 % с белым (7,6 : 1 к --surface, 6,0 к --surface-3), светлая — 80 % с чёрным (7,5 : 1 к белому).
+   Наведение — темнее, не светлее: белый текст остаётся ≥ 4,5 : 1. */
+/* Свой бренд на том же элементе ([data-brand][data-theme], специфичность 0,3,0) сильнее бренда предка — области разных брендов можно вкладывать. */
+[data-brand="goamnezia"], [data-brand="goamnezia"] [data-theme="dark"], [data-brand="goamnezia"][data-brand][data-theme="dark"] {
+  --accent: oklch(.54 .13 222);
+  --accent-foreground: #fff;
+  --accent-text: color-mix(in oklab, oklch(.54 .13 222) 60%, white);   /* светлее: ≥ 6 : 1 и на --surface-3, и на --accent-soft */
+  --accent-hover: color-mix(in oklab, oklch(.54 .13 222) 90%, black);
+  --accent-press: color-mix(in oklab, oklch(.54 .13 222) 82%, black);
+}
+[data-brand="goamnezia"][data-theme="light"], [data-brand="goamnezia"] [data-theme="light"], [data-brand="goamnezia"][data-brand][data-theme="light"] {
+  --accent: oklch(.54 .13 222);
+  --accent-foreground: #fff;
+  --accent-text: color-mix(in oklab, oklch(.54 .13 222) 80%, black);
+  --accent-hover: color-mix(in oklab, oklch(.54 .13 222) 90%, black);
+  --accent-press: color-mix(in oklab, oklch(.54 .13 222) 82%, black);
+}
