@@ -6,9 +6,9 @@
 const PUB = 'https://raw.githubusercontent.com/anten-ka/aegis/main/';
 const RAW = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? './' : PUB;
 // Порядок — как в сборке: из него складываются имена файлов наборов (yandex_ru-services_vk).
-const LISTS = { yandex: 'Яндекс', 'ru-services': 'Российские сервисы', vk: 'ВК' };
-const NOM = { yandex: 'Яндекс', 'ru-services': 'российские сервисы', vk: 'ВК' };
-const GEN = { yandex: 'Яндекса', 'ru-services': 'российских сервисов', vk: 'ВК' };
+const LISTS = { yandex: 'Яндекс', 'ru-services': 'Другие сервисы рунета', vk: 'ВК' };
+const NOM = { yandex: 'Яндекс', 'ru-services': 'другие сервисы рунета', vk: 'ВК' };
+const GEN = { yandex: 'Яндекса', 'ru-services': 'других сервисов рунета', vk: 'ВК' };
 const ACTS = {
   direct: { label: 'Напрямую', hint: 'мимо VPN' },
   block: { label: 'Блокировать', hint: 'не открывать' },
@@ -21,7 +21,7 @@ const SRC = {
   karingLines: 'https://github.com/KaringX/karing/blob/02df19a29007e727fd53d2e041282bbef6134f04/lib/screens/diversion_group_custom_edit_screen.dart#L1397-L1401',
   karingDay: 'https://github.com/KaringX/karing/blob/02df19a29007e727fd53d2e041282bbef6134f04/lib/app/modules/setting_manager.dart#L1410',
 };
-const SRV_WHY = 'На сервере «напрямую» — это и есть выход через VPN: сервис увидит адрес сервера. Мимо VPN — настройте приложение на устройстве.';
+const SRV_WHY = 'На сервере «напрямую» — это и есть выход через VPN-сервер. Мимо VPN — настройте приложение на устройстве.';
 // Docs links are listed under the «Документация» heading, so labels no longer repeat the word.
 const APPS = {
   xray: { side: 'c', label: 'Xray', hint: 'v2rayN, v2rayNG и др.', acts: ['direct', 'block'],
@@ -481,7 +481,7 @@ function renderOut() {
     o.replaceChildren(al('plain', 'info', 'Выберите доменами, сетями или и то и другое.')); updateJump(); return;
   }
   resEmpty = st.app === 'goinst';  // goInstaller has no rules yet («Готовится»): no «Правила готовы» bar
-  const outcome = direct ? 'Сайты ' + namesGen + ' пойдут мимо VPN и не увидят его адрес.'
+  const outcome = direct ? 'Сайты ' + namesGen + ' пойдут напрямую, мимо VPN.'
     : 'Сайты ' + namesGen + ' не откроются на этом устройстве вовсе — ни через VPN, ни мимо.';
   const ok = (t) => al('success', 'check', t);
   const srs = (t) => [PUB + 'sing-box/geosite-aegis-' + t + '.srs', PUB + 'sing-box/geoip-aegis-' + t + '.srs'];
@@ -649,7 +649,7 @@ function renderOut() {
       break;
     }
     case 'goinst':
-      notes.push(note('Готовится: в меню goInstaller → «Защита» появятся переключатели «Яндекс», «Российские сервисы» и «ВК», по умолчанию выключенные. ' +
+      notes.push(note('Готовится: в меню goInstaller → «Защита» появятся переключатели «Яндекс», «Другие сервисы рунета» и «ВК», по умолчанию выключенные. ' +
         'Пока можно настроить Xray или 3X-UI на сервере — выберите их выше.'));
       break;
   }

@@ -1,4 +1,4 @@
-"""Aegis: сборка списков «Яндекс», «Российские сервисы» и «ВК».
+"""Aegis: сборка списков «Яндекс», «Другие сервисы рунета» и «ВК».
 
 python3 -I, только стандартная библиотека — тот же стек, что у защиты goInstaller.
 Адреса и домены — russia.iplist.opencck.org (скачивает build.sh), владелец каждого
@@ -26,7 +26,7 @@ import time
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
-LISTS = {'yandex': 'Яндекс', 'russia': 'Российские сервисы', 'vk': 'ВК'}
+LISTS = {'yandex': 'Яндекс', 'russia': 'Другие сервисы рунета', 'vk': 'ВК'}
 # Код списка в .dat (Xray сверяет без учёта регистра), имя файлов и имя в профиле Happ.
 TAGS = {'yandex': 'YANDEX', 'russia': 'RU-SERVICES', 'vk': 'VK'}
 FILE = {'yandex': 'yandex', 'russia': 'ru-services', 'vk': 'vk'}
@@ -500,7 +500,7 @@ def stop_new(out, new_keys, limit, rows, notes, t0):
         if key_of(a) in nk:
             per[(g, s)] += 1
     ts = datetime.datetime.now(datetime.timezone.utc).strftime('%d.%m.%Y %H:%M UTC')
-    L = ['# 🛡 Списки защиты: российские сервисы', '',
+    L = ['# Aegis: маршрутизация к сервисам рунета', '',
          '**%s** · %.0f с · ❌ не публикуем — остаются прошлые списки' % (ts, time.time() - t0), '',
          '## Проверки', '',
          '- ❌ новых блоков для RIPE: %d — больше предела %d. RIPE не спрашивали.' % (len(new_keys), limit)]
@@ -764,7 +764,7 @@ def main():
     # 6. Панель — $GITHUB_STEP_SUMMARY.
     ts = datetime.datetime.now(datetime.timezone.utc).strftime('%d.%m.%Y %H:%M UTC')
     L = []
-    L.append('# 🛡 Списки защиты: российские сервисы')
+    L.append('# Aegis: маршрутизация к сервисам рунета')
     L.append('')
     L.append('**%s** · сборка %.0f с · %s' % (
         ts, time.time() - t0, '✅ можно публиковать' if ok else '❌ не публикуем — остаются прошлые списки'))
@@ -787,7 +787,7 @@ def main():
         L.append('| **%s** | %d | %d | %d | %d | %d | %d | %s |' % (title, whole, point, u4, len(nets4), len(nets6),
                                                                   len(doms[g]), delta))
     L.append('')
-    L.append('Потолок защиты на сервере — %d блоков /24 на список. Своя сеть — вся сеть принадлежит сервису '
+    L.append('goInstaller на сервере примет не больше %d блоков /24 на список. Своя сеть — вся сеть принадлежит сервису '
              'по RIPE; точечно — адрес в облаке, у оператора или хостера.' % MAX4_24)
     L.append('')
     L.append('## Как разобраны адреса сайта')
@@ -803,7 +803,7 @@ def main():
             if kinds[g][k]:
                 L.append('| %s | %d | `%s` |' % (k, kinds[g][k], bar(kinds[g][k], tot)))
         L.append('')
-    L.append('## Сервисы: что закрываем')
+    L.append('## Сервисы: что попадает в списки')
     L.append('')
     for g, title in LISTS.items():
         L.append('<details><summary>%s — по каждому сайту</summary>' % title)
@@ -825,11 +825,11 @@ def main():
     L.append('Имя покрывает и поддомены. ' + ', '.join('%s — %d' % (LISTS[g], len(doms[g])) for g in LISTS) + '.')
     L.append('')
     by_sfx = collections.Counter('.'.join(d.split('.')[-2:]) for d in shared_doms)
-    L.append('Общие домены, где живут чужие сайты и службы, не закрываем: %s.' % (
+    L.append('Общие домены, где живут чужие сайты и службы, в списки не берём: %s.' % (
         ', '.join('%s — %d' % kv for kv in by_sfx.most_common(6)) or 'нет'))
     ref = sorted({d for s in refused.values() for d in s})
     L.append('')
-    L.append('Зоны с чужими сайтами (com.ru, msk.ru, площадки вроде tilda.ws) целиком не закрываем: %s.' % (
+    L.append('Зоны с чужими сайтами (com.ru, msk.ru, площадки вроде tilda.ws) целиком в списки не берём: %s.' % (
         ', '.join('`%s`' % d for d in ref[:10]) + (' и ещё %d' % (len(ref) - 10) if len(ref) > 10 else '')
         if ref else 'не встретились'))
     for g in LISTS:
@@ -843,7 +843,7 @@ def main():
     L.append('')
     L.append('## Файлы для ядер и приложений')
     L.append('')
-    L.append('Как подключить — README репозитория и [конфигуратор](https://anten-ka.github.io/aegis/).')
+    L.append('Как подключить — README репозитория и [генератор маршрутизации](https://anten-ka.github.io/aegis/).')
     L.append('')
     L.append('<details><summary>%d файлов</summary>' % len(core_files))
     L.append('')
@@ -857,7 +857,7 @@ def main():
     L.append('## Владельцы, которых нет в таблице')
     L.append('')
     if unknown:
-        L.append('Их адреса **не закрываем**, пока владельца не внесут в `asn-classes.tsv`.')
+        L.append('Их адреса **в списки не берём**, пока владельца не внесут в `asn-classes.tsv`.')
         L.append('')
         L.append('| AS | Владелец по RIPE | Адресов | Где встретился |')
         L.append('|---|---|---:|---|')
@@ -881,7 +881,7 @@ def main():
     L.append('')
     L.append('Источники: [russia.iplist.opencck.org](https://russia.iplist.opencck.org) (MIT, rekryt/iplist) · '
              '[RIPEstat](https://stat.ripe.net) · правила — `rules/asn-classes.tsv` · '
-             '[конфигуратор](https://anten-ka.github.io/aegis/).')
+             '[генератор маршрутизации](https://anten-ka.github.io/aegis/).')
     with open(os.path.join(out, 'summary.md'), 'w', encoding='utf-8') as fh:
         fh.write('\n'.join(L) + '\n')
     write_meta(out, gen, ok)
