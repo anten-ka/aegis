@@ -17,9 +17,12 @@
 > tunnelling and WireGuard/AmneziaWG `AllowedIPs`. Use them to block these services for VPN clients on a server, or
 > to route them directly (outside the VPN) on a client.
 
-**Генератор: [anten-ka.github.io/aegis](https://anten-ka.github.io/aegis/)** — выберите списки, приложение и что
+**Генератор: [aegis-routing.github.io](https://aegis-routing.github.io/)** — выберите списки, приложение и что
 сделать (напрямую или блокировать) — страница покажет готовые правила и что куда вставить, для Happ и INCY — ещё и
 ссылку с QR. Что в списках сегодня — [summary.md](summary.md).
+Код страницы — в репозитории [aegis-routing/aegis-routing.github.io](https://github.com/aegis-routing/aegis-routing.github.io);
+прежний адрес anten-ka.github.io/aegis переводит на новый. Имена файлов и формат `stats.json` читают страница и уже
+установленные профили и серверы: менять их — только вместе со страницей.
 
 ## Списки
 

@@ -161,7 +161,7 @@ goInstaller на сервере примет не больше 16384 блоко�
 
 ## Файлы для ядер и приложений
 
-Как подключить — README репозитория и [генератор маршрутизации](https://anten-ka.github.io/aegis/).
+Как подключить — README репозитория и [генератор маршрутизации](https://aegis-routing.github.io/).
 
 <details><summary>48 файлов</summary>
 
@@ -247,4 +247,4 @@ goInstaller на сервере примет не больше 16384 блоко�
 - ✅ все проверки пройдены
 - RIPE: 2810 запросов, из кеша 0 блоков из 2481, без ответа 0
 
-Источники: [russia.iplist.opencck.org](https://russia.iplist.opencck.org) (MIT, rekryt/iplist) · [RIPEstat](https://stat.ripe.net) · правила — `rules/asn-classes.tsv` · [генератор маршрутизации](https://anten-ka.github.io/aegis/).
+Источники: [russia.iplist.opencck.org](https://russia.iplist.opencck.org) (MIT, rekryt/iplist) · [RIPEstat](https://stat.ripe.net) · правила — `rules/asn-classes.tsv` · [генератор маршрутизации](https://aegis-routing.github.io/).

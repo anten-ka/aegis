@@ -843,7 +843,7 @@ def main():
     L.append('')
     L.append('## Файлы для ядер и приложений')
     L.append('')
-    L.append('Как подключить — README репозитория и [генератор маршрутизации](https://anten-ka.github.io/aegis/).')
+    L.append('Как подключить — README репозитория и [генератор маршрутизации](https://aegis-routing.github.io/).')
     L.append('')
     L.append('<details><summary>%d файлов</summary>' % len(core_files))
     L.append('')
@@ -881,7 +881,7 @@ def main():
     L.append('')
     L.append('Источники: [russia.iplist.opencck.org](https://russia.iplist.opencck.org) (MIT, rekryt/iplist) · '
              '[RIPEstat](https://stat.ripe.net) · правила — `rules/asn-classes.tsv` · '
-             '[генератор маршрутизации](https://anten-ka.github.io/aegis/).')
+             '[генератор маршрутизации](https://aegis-routing.github.io/).')
     with open(os.path.join(out, 'summary.md'), 'w', encoding='utf-8') as fh:
         fh.write('\n'.join(L) + '\n')
     write_meta(out, gen, ok)
