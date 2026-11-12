@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://raw.githubusercontent.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aegis — конфигуратор</title>
+<meta name="description" content="Списки Яндекса, российских сервисов и ВК для защиты VPN: готовые правила для Xray, mihomo, Happ, INCY, Hiddify, Karing, Shadowrocket, AmneziaVPN, WireGuard, 3X-UI.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%233b6ef5' d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z'/%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #f6f7f9; --card: #ffffff; --ink: #14171c; --muted: #5b6370; --line: #e3e6eb;
+  --accent: #3b6ef5; --accent-ink: #ffffff; --accent-soft: #e9efff; --code: #f1f3f6;
+  --ok: #1f8a4c; --warn: #a15c00; --warn-soft: #fff4e2; --radius: 12px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1216; --card: #171b21; --ink: #e8ebf0; --muted: #9aa3b0; --line: #2a3039;
+    --accent: #6d93ff; --accent-ink: #0b1020; --accent-soft: #1d2740; --code: #0c0f13;
+    --ok: #4cc07f; --warn: #f0b35a; --warn-soft: #2a2114;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+a { color: var(--accent); }
+.wrap { max-width: 920px; margin: 0 auto; padding: 24px 16px 64px; }
+header { display: flex; gap: 14px; align-items: center; margin: 8px 0 6px; }
+header svg { flex: none; }
+h1 { font-size: 28px; line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
+.tag { color: var(--muted); margin: 0 0 18px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+.pill { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px;
+  font-size: 14px; color: var(--muted); }
+.pill b { color: var(--ink); font-weight: 600; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px;
+  margin: 0 0 18px; }
+h2 { font-size: 20px; margin: 0 0 14px; }
+h3 { font-size: 15px; margin: 18px 0 8px; color: var(--muted); font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.04em; }
+h3:first-child { margin-top: 0; }
+.side { font-size: 14px; color: var(--muted); margin: 10px 0 6px; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { position: relative; max-width: 100%; }
+.opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.opt span { display: block; border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; cursor: pointer;
+  background: var(--card); user-select: none; }
+.opt small { display: block; color: var(--muted); font-size: 13px; }
+.opt input:checked + span { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.opt input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.opt input:disabled { cursor: not-allowed; }
+.opt input:disabled + span { cursor: not-allowed; opacity: 0.55; border-style: dashed; }
+.result { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 18px; }
+ol.steps { padding-left: 22px; margin: 0; }
+ol.steps > li { margin: 0 0 16px; overflow-wrap: anywhere; }
+.note { background: var(--warn-soft); color: var(--ink); border-left: 3px solid var(--warn); border-radius: 8px;
+  padding: 10px 12px; margin: 10px 0; font-size: 15px; overflow-wrap: anywhere; }
+.docs { font-size: 15px; color: var(--muted); margin: 12px 0 0; overflow-wrap: anywhere; }
+.codebox { position: relative; margin: 8px 0; }
+pre { background: var(--code); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 0;
+  overflow: auto; max-height: 360px; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  white-space: pre; }
+pre.wrap-lines { white-space: pre-wrap; overflow-wrap: anywhere; }
+.codebox pre.wrap-lines { padding-top: 38px; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; }
+button, .dl { font: inherit; font-size: 14px; border-radius: 8px; padding: 6px 12px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--card); color: var(--ink); text-decoration: none; display: inline-block; }
+button.primary, a.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+button:hover, .dl:hover { border-color: var(--accent); }
+.copy { position: absolute; top: 8px; right: 8px; padding: 3px 10px; font-size: 13px; }
+.qrbox { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; margin: 10px 0 0; }
+svg.qr { width: 280px; max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); flex: none; }
+.qrbox p { flex: 1 1 220px; margin: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: 600; font-size: 13px; }
+td.n { text-align: right; font-variant-numeric: tabular-nums; }
+.scroll { overflow-x: auto; }
+.muted { color: var(--muted); }
+code { font: 0.92em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--code);
+  padding: 1px 5px; border-radius: 5px; overflow-wrap: anywhere; }
+footer { color: var(--muted); font-size: 14px; }
+@media (max-width: 560px) { h1 { font-size: 24px; } .card { padding: 16px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path fill="var(--accent)" d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path fill="var(--card)" d="m10.6 15.2-3-3 1.4-1.4 1.6 1.6 4.4-4.4 1.4 1.4z"/></svg>
+    <h1>Aegis</h1>
+  </header>
+  <p class="tag">Списки Яндекса, российских сервисов и ВК, чтобы приложения на телефоне не узнавали адрес вашего VPN.
+    Выберите списки, приложение и что сделать, — страница покажет готовые правила и куда их вставить.</p>
+  <div class="meta" id="meta"><span class="pill">Загружаю сведения о списках…</span></div>
+
+  <section class="card" aria-labelledby="cfg-h">
+    <h2 id="cfg-h">Конфигуратор</h2>
+    <div id="cfg">
+      <h3 id="lists-h">1. Что фильтровать</h3>
+      <div class="opts" id="lists" role="group" aria-labelledby="lists-h"></div>
+      <p class="muted" id="lists-note">В списке «ВК» есть и сайты, которые не порталы VK: «ВК — блокировать» закроет и их.
+        Перечень — в <a href="https://github.com/anten-ka/aegis#списки">README</a>.</p>
+
+      <h3 id="apps-h">2. Чем пользуетесь</h3>
+      <div role="radiogroup" aria-labelledby="apps-h">
+        <p class="side">На устройстве</p>
+        <div class="opts" id="apps-c"></div>
+        <p class="side">На сервере</p>
+        <div class="opts" id="apps-s"></div>
+      </div>
+
+      <h3 id="act-h">3. Что сделать</h3>
+      <div class="opts" id="action" role="radiogroup" aria-labelledby="act-h"></div>
+      <div class="opts" id="extra" style="margin-top:8px"></div>
+    </div>
+
+    <div class="result" id="out" aria-live="polite"></div>
+  </section>
+
+  <section class="card" aria-labelledby="st-h">
+    <h2 id="st-h">Что в списках</h2>
+    <div class="scroll"><table id="stats"><tbody><tr><td class="muted">Загружаю…</td></tr></tbody></table></div>
+    <p class="muted" style="margin:12px 0 0">Подробно по каждому сервису — в <a href="https://github.com/anten-ka/aegis/blob/main/summary.md">сводке сборки</a>.</p>
+  </section>
+
+  <section class="card" aria-labelledby="how-h">
+    <h2 id="how-h">Как собираются списки</h2>
+    <p style="margin-top:0">Раз в сутки GitHub Actions берёт адреса и домены сервисов с
+      <a href="https://russia.iplist.opencck.org">russia.iplist.opencck.org</a> и по каждой сети спрашивает
+      <a href="https://stat.ripe.net">RIPE</a>, кому она принадлежит.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Где адрес</th><th>Что попадает в список</th></tr></thead>
+      <tbody>
+        <tr><td>Собственная сеть сервиса</td><td>Все сети этого владельца целиком</td></tr>
+        <tr><td>У оператора, в облаке, у хостера</td><td>Только сам адрес</td></tr>
+        <tr><td>Общий CDN или защита от атак</td><td>Ничего — там чужие сайты</td></tr>
+        <tr><td>Владелец ещё не разобран</td><td>Ничего, пока его не разберут</td></tr>
+      </tbody>
+    </table></div>
+    <p>ВК: целиком — только собственные сети порталов VK (vk.com, mail.ru, ok.ru, dzen.ru, max.ru, rustore.ru и
+      других). Облако VK Cloud — только адресами: там сайты чужих компаний. Сайт-источник кладёт в группу vk и сайты,
+      которые не порталы VK, — они названы в первом шаге.</p>
+    <p style="margin-bottom:0">Сети GitHub и Telegram не попадают никогда. Домены проверяются: общие зоны вроде
+      com.ru или msk.ru не принимаются, резкий рост или убыль списка останавливает сборку. Если сборка что-то не
+      проверила, она не публикуется — остаются вчерашние файлы.</p>
+  </section>
+
+  <footer>
+    <a href="https://github.com/anten-ka/aegis">github.com/anten-ka/aegis</a> · данные:
+    <a href="https://github.com/rekryt/iplist">rekryt/iplist</a> (MIT), RIPEstat ·
+    QR: <a href="https://github.com/kazuhikoarase/qrcode-generator">qrcode-generator</a> (MIT) ·
+    ошибку владельца сети — в <a href="https://github.com/anten-ka/aegis/issues">issues</a>.
+  </footer>
+</div>
+
+<script src="vendor/qrcode-generator/qrcode.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

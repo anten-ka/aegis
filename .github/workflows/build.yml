@@ -1,0 +1,97 @@
+# Сборка списков раз в сутки и публикация в этот репозиторий.
+#
+# Две задачи. «build» собирает и проверяет с правом только на чтение: ключ с правом
+# записи не лежит рядом, пока разбираются чужие ответы (RIPE, сайты) и работают
+# скачанные Xray, mihomo и sing-box. Готовая сборка уходит артефактом в «publish»,
+# которая только копирует файлы и коммитит их.
+#
+# Панель «что в списках» — на странице запуска (Summary): её пишет сборка в
+# $GITHUB_STEP_SUMMARY, она видна и тогда, когда публиковать нельзя.
+# Открытый репозиторий: минуты Actions бесплатны; запуск ~2 мин, первый ~5.
+name: build
+
+on:
+  schedule:
+    - cron: '41 3 * * *'       # 06:41 МСК; не в :00 — там очередь GitHub
+  workflow_dispatch:
+    inputs:
+      new_max:
+        description: 'Предел новых блоков адресов на эту сборку (пусто — обычный). Поднимать, только посмотрев панель.'
+        required: false
+        default: ''
+
+permissions: {}
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1   # v7.0.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Собрать списки
+        id: build
+        env:
+          GH_TOKEN: ${{ github.token }}          # только чтение; для api.github.com/meta
+          AEGIS_NEW_MAX: ${{ inputs.new_max }}   # через окружение, не в текст команды
+        run: bash scripts/build.sh . "$RUNNER_TEMP/out" rules/asn-classes.tsv
+
+      - name: Проверить файлы (validate.py) и ядрами Xray, mihomo, sing-box
+        id: cores
+        if: steps.build.outcome == 'success'
+        env:
+          XRAY_VERSION: v26.11.9
+          XRAY_SHA256: b651f7e1d9966ee2c1b1ee1bf8b52c72771824d3065dce96bbc8bcc19ed95f82
+          MIHOMO_VERSION: v1.19.34
+          MIHOMO_SHA256: 223fab877e5795ce780ba39902e5f0b1113c1256ae244a7160f1165e017e9ccc
+          SING_BOX_VERSION: v1.14.4
+          SING_BOX_SHA256: 699a1b510aa4396b2176d32d1181920399ebf1e267835da6f3b598d0f7c24968
+        run: bash scripts/verify-cores.sh "$RUNNER_TEMP/out"
+
+      - name: Панель на странице запуска
+        if: always()
+        run: |
+          if [ -s "$RUNNER_TEMP/out/summary.md" ]; then
+            cat "$RUNNER_TEMP/out/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "## ❌ Сборка не дошла до панели — смотрите журнал шага «Собрать списки»" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Сохранить сборку на 30 дней
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9   # v7.0.2
+        with:
+          name: aegis-build
+          path: ${{ runner.temp }}/out
+          retention-days: 30
+          if-no-files-found: ignore
+
+  publish:
+    needs: build                       # только если сборка и проверки прошли
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write                  # только чтобы закоммитить сборку в этот репозиторий
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1   # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333   # v8.0.2
+        with:
+          name: aegis-build
+          path: ${{ runner.temp }}/out
+
+      - name: Опубликовать
+        run: bash scripts/publish.sh . "$RUNNER_TEMP/out"

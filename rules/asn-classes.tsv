@@ -1,0 +1,137 @@
+# asn	class	owner	services (own only: portals of the site that own this AS)	note
+# class: own = whole announced networks of the service; isp = operator or city network, /32 only;
+# cloud = shared hosting/DC, /32 only; cdn = shared fronts, skip
+# --- yandex group
+13238	own	Яндекс	yandex.ru yandex@*
+44534	isp	Яндекс (офисы)		сотрудники в офисах — только адреса
+208795	cloud	Yandex Cloud (Казахстан)
+215109	own	Яндекс	yandex.ru yandex@*
+219109	cdn	Yandex Cloud CDN (Казахстан)
+200350	cloud	Yandex Cloud
+215013	cdn	Yandex Cloud CDN
+# --- vk group: own = only VK's own portals of site group vk; other sites of the group (aliexpress, cian, ...) by address
+47764	cloud	VK Cloud (VK)		в этой AS публичное облако VK Cloud (VKCS) с чужими сайтами — только адреса
+47541	own	VK (ВКонтакте)	vk.com vk@* mail.ru mailru@* ok.ru dzen.ru max.ru rustore.ru sferum.ru tamtam.chat youla.ru
+49988	own	VK (Одноклассники)	vk.com vk@* mail.ru mailru@* ok.ru dzen.ru max.ru rustore.ru sferum.ru tamtam.chat youla.ru
+60863	own	VK (Mail.ru)	vk.com vk@* mail.ru mailru@* ok.ru dzen.ru max.ru rustore.ru sferum.ru tamtam.chat youla.ru
+62243	own	VK (ВКонтакте)	vk.com vk@* mail.ru mailru@* ok.ru dzen.ru max.ru rustore.ru sferum.ru tamtam.chat youla.ru
+201817	cloud	VK Tech Казахстан
+# --- russia group: own networks of the services
+35237	own	Сбербанк	sberbank.ru
+24823	own	ВТБ	vtb.ru
+41551	own	ВТБ	vtb.ru
+15632	own	Альфа-Банк	alfabank.ru
+35022	own	Газпромбанк	gazprombank.ru
+48033	own	Газпромбанк	gazprombank.ru
+43399	own	Т-Банк	tbank.ru
+44386	own	Ozon	ozon.ru
+207986	own	Ozon Банк	ozon.ru
+57073	own	Wildberries	wb.ru
+201012	own	Авито	avito.ru
+197482	own	2ГИС	2gis.ru
+57319	own	Магнит (Тандер)	magnit.ru
+44704	own	X5 (Перекрёсток)	x5.ru
+42661	own	Детский мир	detmir.ru
+57906	own	Lamoda	lamoda.ru
+213506	own	ВкусВилл	vkusvill.ru
+49002	own	Почта России	pochta.ru
+20702	own	РЖД	rzd.ru
+47724	own	hh.ru	hh.ru
+59601	isp	hh.ru (офис)		сотрудники — только адреса
+204671	own	Хабр	habr.com
+207353	own	Rutube (Руформ)	rutube.ru
+206295	own	Медси	medsi.ru
+197379	own	Инвитро	invitro.ru
+39266	own	РЕСО	reso.ru
+61326	own	Rendez-vous	rendez-vous.ru
+208008	own	Леруа Мерлен (Лемана)	leroymerlin.ru
+20698	own	Автодор	avtodor-tr.ru
+62358	own	Мосэнергосбыт	mosenergosbyt.ru mosobleirc.ru
+196747	own	Госуслуги (Электронное правительство)	gosuslugi.ru
+203891	own	Подмосковье (МОЦ ИКТ)	mosreg.ru
+44560	own	МВД	mvd.ru
+43797	isp	RSNet (ФСО)		общая сеть госорганов — только адреса
+197571	own	Спутник (Ростелеком)	roszdravnadzor.gov.ru
+208981	own	Saby (Тензор, ЦОД)	saby.ru
+214063	own	Saby (Тензор)	saby.ru
+# --- operators and city networks: /32 only (subscribers live there)
+8359	isp	МТС
+13174	isp	МТС
+29209	isp	МТС
+16345	isp	Билайн
+3216	isp	Билайн
+8402	isp	Билайн (Корбина)
+31133	isp	МегаФон
+25159	isp	МегаФон
+12714	isp	МегаФон
+13075	isp	МегаФон (MegaLabs)
+13116	isp	T2
+12389	isp	Ростелеком
+34168	isp	Ростелеком
+8342	isp	RTComm
+8732	isp	Комкор
+20485	isp	ТрансТелеКом
+8901	isp	Мосгортелеком		городская сеть Москвы
+39435	isp	ЭР-Телеком
+# --- clouds, hosting, data centres: /32 only
+60490	cloud	МТС Облако
+209024	cloud	МТС Облако
+44677	cloud	МТС Облако
+49505	cloud	Selectel
+50340	cloud	Selectel
+208677	cloud	Cloud.ru
+206805	cloud	T1 Облако
+34879	cloud	ССТ (госЦОД)
+204878	cloud	ССТ (госЦОД)
+51115	cloud	HLL
+201193	cloud	Интернет Проекты
+197695	cloud	REG.RU
+9123	cloud	Timeweb
+198610	cloud	Beget
+25532	cloud	Мастерхост
+20919	cloud	DataFort
+209930	cloud	DataSpace
+24940	cloud	Hetzner
+136907	cloud	Huawei Cloud
+6878	cloud	T-Systems
+39337	cloud	Corpsoft24
+48614	cloud	ITSOFT
+51219	cloud	K2 Интеграция
+61400	cloud	Netrack
+44094	cloud	Webhost
+48287	cloud	RU-CENTER
+39494	cloud	RU-CENTER
+34300	cloud	Spacenet
+29182	cloud	IOT
+203714	cloud	Flex
+52201	cloud	Suntel
+12695	cloud	Digital Network
+50341	cloud	Alta-Soft
+199599	cloud	Телеком-Биржа
+198070	cloud	Pudlink
+57420	cloud	Фора Телеком
+198712	cloud	Интервейл
+197078	cloud	Yarnet
+60864	cloud	Интер РАО ИТ
+207059	cloud	Unisender
+30058	cloud	FDCservers
+# --- shared fronts: skip
+15169	cdn	Google
+16509	cdn	Amazon
+14618	cdn	Amazon
+8075	cdn	Microsoft
+20940	cdn	Akamai
+13335	cdn	Cloudflare
+54113	cdn	Fastly
+60068	cdn	CDN77
+57724	cdn	DDoS-Guard
+57363	cdn	CDNvideo
+204720	cdn	CDNetworks
+201706	cdn	Servicepipe
+210756	cdn	EdgeCenter
+209030	cdn	Kaspersky DDoS Protection
+60922	cdn	Variti
+51464	cdn	Mitigator
+21030	cdn	CDNNOW
+61273	cdn	Adjust		чужой трекер
+44788	cdn	Criteo		чужой трекер
