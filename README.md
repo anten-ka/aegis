@@ -63,6 +63,44 @@ aliexpress.ru, cian.ru, gb.ru, skillbox.ru, skillfactory.ru, tetrika-school.ru �
 
 Ссылки на файлы — `https://raw.githubusercontent.com/anten-ka/aegis/main/<файл>`.
 
+## Подключения WireGuard и AmneziaWG: где действуют правила
+
+Действуют ли правила, когда приложение подключено через WireGuard или AmneziaWG, — по каждому приложению. На
+устройстве проверен только INCY (iPhone, 12.11.2026); остальное — по документации и коду приложений.
+
+- **INCY:** с действием «Напрямую» профиль сработал с подключением VLESS и не сработал с AmneziaWG — для AmneziaWG
+  берите AmneziaVPN или строку AllowedIPs. WireGuard, «Блокировать» и другие устройства мы не проверяли
+  ([протоколы INCY](https://github.com/INCY-DEV/incy-platforms/blob/cc03fd036deb272191bb3c23aacf67a6dbc1a092/README.md?plain=1#L72)).
+- **Happ:** в документации нет ни WireGuard, ни AmneziaWG
+  ([протоколы Happ](https://www.happ.su/main/faq/adding-configuration-subscription)), на устройстве Happ мы не
+  проверяли; в INCY такой же профиль с AmneziaWG не действует.
+- **Hiddify:** WireGuard и AmneziaWG запускает в том же ядре sing-box, что и VLESS, поэтому правила должны действовать
+  и для них — так по коду ([parser.go](https://github.com/hiddify/hiddify-core/blob/b32da5d975a3ffab6ed706173839b5d0ffc55c6c/v2/config/parser.go#L158-L206),
+  [builder.go](https://github.com/hiddify/hiddify-core/blob/b32da5d975a3ffab6ed706173839b5d0ffc55c6c/v2/config/builder.go#L234-L284)),
+  на устройстве не проверяли.
+- **Karing:** по заметкам к выпускам ([2906](https://github.com/KaringX/karing/releases/tag/v1.2.26.2906),
+  [2916](https://github.com/KaringX/karing/releases/tag/v1.2.26.2916)) WireGuard и AmneziaWG работают в его ядре
+  sing-box, поэтому правила должны действовать и для них — на устройстве не проверяли.
+- **Shadowrocket:** по [истории версий](https://apps.apple.com/us/app/shadowrocket/id932747118) умеет WireGuard и
+  AmneziaWG (какие версии AmneziaWG — неизвестно); действуют ли с ними правила, мы не проверяли.
+- **Xray (v2rayN, v2rayNG):** по [документации](https://github.com/XTLS/Xray-docs-next/blob/44ed2e81cce3e0d134b901907aba75503abd82df/docs/en/config/outbounds/wireguard.md?plain=1#L3)
+  правила действуют на все подключения Xray, включая WireGuard. AmneziaWG в Xray нет: файл AmneziaWG
+  [v2rayN](https://github.com/2dust/v2rayN/blob/e3457fa4b4776d380d3bac271e63eeb42847ebaa/v2rayN/ServiceLib/Handler/Fmt/WireguardFmt.cs#L103-L162)
+  и [v2rayNG](https://github.com/2dust/v2rayNG/blob/1fa257fab9f6eacd1b05b50b49834d5bbe5a6980/V2rayNG/app/src/main/java/com/v2ray/ang/fmt/WireguardFmt.kt#L48-L89)
+  откроют как обычный WireGuard без маскировки — подключится ли он, мы не проверяли.
+- **mihomo (Clash Verge Rev, FlClash):** WireGuard и AmneziaWG — такие же прокси, как VLESS, правила действуют и на них
+  ([документация](https://wiki.metacubex.one/en/config/proxies/wg/), [код](https://github.com/MetaCubeX/mihomo/blob/0455d0d28c4526937380505153e65a843d8612e8/adapter/outbound/wireguard.go#L105-L143));
+  AmneziaWG задаётся только в профиле YAML (`amnezia-wg-option`); на устройстве не проверяли.
+- **AmneziaVPN:** с WireGuard и AmneziaWG список действует, только если в конфигурации `AllowedIPs = 0.0.0.0/0, ::/0`;
+  иначе приложение показывает «Раздельное туннелирование на сервере» и список не применяет
+  ([документация](https://docs.amnezia.org/documentation/instructions/vpn-split-tunneling),
+  [код](https://github.com/amnezia-vpn/amnezia-client/blob/864c1faab81166579a43a06fde9dbc9076b0be92/client/vpnConnection.cpp#L412-L458));
+  на устройстве не проверяли.
+- **Строка AllowedIPs:** работает и с WireGuard, и с AmneziaWG. Конфигурацию AmneziaWG открывайте в приложении
+  [AmneziaWG](https://docs.amnezia.org/documentation/amnezia-wg): приложение WireGuard её не примет (iOS, macOS и
+  Android — по коду: [wireguard-apple](https://github.com/WireGuard/wireguard-apple/blob/2fec12a6e1f6e3460b6ee483aa00ad29cddadab1/Sources/Shared/Model/TunnelConfiguration%2BWgQuickConfig.swift#L74-L83),
+  [wireguard-android](https://github.com/WireGuard/wireguard-android/blob/e7b3a3c118836e112620b1302a8ba1873ad4daac/tunnel/src/main/java/com/wireguard/config/Interface.java#L98-L100)).
+
 ## Xray и 3X-UI на сервере (блокировать)
 
 Документация: [маршрутизация Xray](https://xtls.github.io/ru/config/routing.html), [3X-UI](https://github.com/MHSanaei/3x-ui).

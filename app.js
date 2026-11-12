@@ -120,6 +120,52 @@ function dl(file, label) {
   return a;
 }
 const link = (text, href) => el('a', { href, target: '_blank', rel: 'noopener' }, text);
+// С какими подключениями (WireGuard, AmneziaWG) действуют правила — по документации и коду приложений,
+// проверено на устройстве только INCY (iPhone, 12.11.2026). Текст и источники для каждой карточки.
+const PROTO = {
+  xray: ['По документации правила Xray действуют на все его подключения, включая WireGuard. AmneziaWG в Xray нет: файл AmneziaWG ' +
+    'v2rayN и v2rayNG откроют как обычный WireGuard без маскировки — подключится ли он, мы не проверяли.',
+    [['Xray: WireGuard', 'https://github.com/XTLS/Xray-docs-next/blob/44ed2e81cce3e0d134b901907aba75503abd82df/docs/en/config/outbounds/wireguard.md?plain=1#L3'],
+      ['v2rayN', 'https://github.com/2dust/v2rayN/blob/e3457fa4b4776d380d3bac271e63eeb42847ebaa/v2rayN/ServiceLib/Handler/Fmt/WireguardFmt.cs#L103-L162'],
+      ['v2rayNG', 'https://github.com/2dust/v2rayNG/blob/1fa257fab9f6eacd1b05b50b49834d5bbe5a6980/V2rayNG/app/src/main/java/com/v2ray/ang/fmt/WireguardFmt.kt#L48-L89']]],
+  mihomo: ['В mihomo это такие же прокси, как VLESS, и правила действуют и на них (по документации; на устройстве ' +
+    'не проверяли). AmneziaWG задаётся только в профиле YAML (amnezia-wg-option).',
+    [['mihomo: WireGuard', 'https://wiki.metacubex.one/en/config/proxies/wg/'],
+      ['код', 'https://github.com/MetaCubeX/mihomo/blob/0455d0d28c4526937380505153e65a843d8612e8/adapter/outbound/wireguard.go#L105-L143']]],
+  happ: ['В документации Happ нет ни WireGuard, ни AmneziaWG, а на устройстве Happ мы не проверяли; в INCY такой же профиль ' +
+    'с подключением AmneziaWG не действует.',
+    [['Happ: протоколы', 'https://www.happ.su/main/faq/adding-configuration-subscription']]],
+  incy: ['На iPhone с действием «Напрямую» профиль сработал с подключением VLESS и не сработал с AmneziaWG — для AmneziaWG берите ' +
+    'карточки «AmneziaVPN» или «WireGuard / AmneziaWG». WireGuard, «Блокировать» и другие устройства мы не проверяли.',
+    [['INCY: протоколы', 'https://github.com/INCY-DEV/incy-platforms/blob/cc03fd036deb272191bb3c23aacf67a6dbc1a092/README.md?plain=1#L72']]],
+  hiddify: ['Hiddify запускает их в том же ядре sing-box, что и VLESS, поэтому правила должны действовать и для них — ' +
+    'так по коду, на устройстве не проверяли.',
+    [['код', 'https://github.com/hiddify/hiddify-core/blob/b32da5d975a3ffab6ed706173839b5d0ffc55c6c/v2/config/parser.go#L158-L206'],
+      ['код', 'https://github.com/hiddify/hiddify-core/blob/b32da5d975a3ffab6ed706173839b5d0ffc55c6c/v2/config/builder.go#L234-L284']]],
+  karing: ['По заметкам к выпускам Karing запускает их в своём ядре sing-box, поэтому правила должны действовать ' +
+    'и для них — на устройстве не проверяли.',
+    [['выпуск 2906', 'https://github.com/KaringX/karing/releases/tag/v1.2.26.2906'],
+      ['выпуск 2916', 'https://github.com/KaringX/karing/releases/tag/v1.2.26.2916']]],
+  shadowrocket: ['По истории версий Shadowrocket их умеет (какие версии AmneziaWG — неизвестно); действуют ли с ними ' +
+    'правила, мы не проверяли.',
+    [['история версий', 'https://apps.apple.com/us/app/shadowrocket/id932747118']]],
+  amnezia: ['С WireGuard и AmneziaWG список действует, только если в конфигурации AllowedIPs = 0.0.0.0/0, ::/0; иначе приложение ' +
+    'показывает «Раздельное туннелирование на сервере» и список не применяет (по коду приложения, на устройстве не проверяли).',
+    [['документация', 'https://docs.amnezia.org/documentation/instructions/vpn-split-tunneling'],
+      ['код', 'https://github.com/amnezia-vpn/amnezia-client/blob/864c1faab81166579a43a06fde9dbc9076b0be92/client/vpnConnection.cpp#L412-L458']]],
+  wg: ['Строка AllowedIPs работает и с WireGuard, и с AmneziaWG. Конфигурацию AmneziaWG открывайте в приложении AmneziaWG: ' +
+    'приложение WireGuard её не примет (iOS, macOS и Android — по коду).',
+    [['AmneziaWG', 'https://docs.amnezia.org/documentation/amnezia-wg'],
+      ['WireGuard для iOS и macOS', 'https://github.com/WireGuard/wireguard-apple/blob/2fec12a6e1f6e3460b6ee483aa00ad29cddadab1/Sources/Shared/Model/TunnelConfiguration%2BWgQuickConfig.swift#L74-L83'],
+      ['для Android', 'https://github.com/WireGuard/wireguard-android/blob/e7b3a3c118836e112620b1302a8ba1873ad4daac/tunnel/src/main/java/com/wireguard/config/Interface.java#L98-L100']]],
+};
+const protoNote = (app) => {
+  const p = PROTO[app];
+  if (!p) return null;
+  const refs = [];
+  p[1].forEach(([t, u], i) => { if (i) refs.push(', '); refs.push(link(t, u)); });
+  return note(el('b', {}, 'WireGuard и AmneziaWG. '), p[0], ' Источники: ', refs, '.');
+};
 const count = (f) => (stats && stats.files && stats.files[f]) ? stats.files[f].count : null;
 const n = (x) => (x == null ? '—' : Number(x).toLocaleString('ru-RU'));
 const sel = () => Object.keys(LISTS).filter((k) => st.lists.includes(k));
@@ -363,8 +409,6 @@ function renderOut() {
             'английская — не чаще раза в неделю, даже если профиль обновляется каждый час; русская — когда в профиле новая дата LastUpdated ' +
             '(у нас она меняется вместе с файлами). Чтобы взять свежие раньше, откройте ссылку снова — это мы не проверяли.' + CATS]),
         note(outcome),
-        note('Профиль — это правила ядра Xray. Как Happ поступает с подключениями AmneziaWG и WireGuard, мы не проверяли; ' +
-          'в INCY с подключением AmneziaWG такой профиль не действует.'),
         el('p', { class: 'muted' }, 'Профиль собран по документации Happ. Что Happ принимает свои теги в чужих geo-файлах (geosite:' + sel()[0] +
           '), подтверждено только опытом сообщества — на устройстве мы это не проверяли.'));
       happBlock(box, 'happ/' + combo() + '-' + st.act + '.json', my);
@@ -376,12 +420,6 @@ function renderOut() {
         steps(['Откройте ссылку на телефоне с INCY или отсканируйте QR:', box],
           ['INCY сам проверяет профиль по ссылке (по умолчанию раз в сутки) и берёт новые списки, когда они меняются.' + CATS]),
         note(outcome),
-        note((direct
-          ? 'Проверено с подключением VLESS: Яндекс пошёл мимо VPN. С подключением AmneziaWG INCY профиль не применяет — сайты ' +
-            namesGen + ' идут через VPN. Для AmneziaWG — карточки «AmneziaVPN» или «WireGuard / AmneziaWG».'
-          : 'С подключением AmneziaWG INCY профиль не применяет — так было с действием «Напрямую»; «Блокировать» мы не проверяли. ' +
-            'Карточки «AmneziaVPN» и «WireGuard / AmneziaWG» умеют только «Напрямую».') +
-          ' Другие протоколы INCY мы не проверяли.'),
         el('p', { class: 'muted' }, 'Ссылка и профиль — по документации INCY. Проверено на iPhone 12.11.2026, действие «Напрямую»: ' +
           'yandex.ru/internet с подключением VLESS показал домашний адрес, с AmneziaWG — адрес VPN-сервера. «Блокировать» на устройстве не проверяли.'));
       linkBlock(box, 'incy://autorouting/onadd/' + PUB + 'happ/' + combo() + '-' + st.act + '.json', 'INCY', my);
@@ -475,6 +513,8 @@ function renderOut() {
         'Пока можно настроить Xray или 3X-UI на сервере — выберите их выше.'));
       break;
   }
+  const pn = protoNote(st.app);
+  if (pn) o.append(pn);
   const d = docsLine();
   if (d) o.append(d);
 }
