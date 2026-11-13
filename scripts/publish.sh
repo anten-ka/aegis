@@ -2,7 +2,14 @@
 # Публикация сборки в этот же репозиторий (задача publish в build.yml).
 # Не прошедшее проверки и неполное не публикуем — остаются вчерашние файлы.
 # Без изменений в списках коммит всё равно есть (meta, кеш RIPE, сводка):
-# по дате meta видно, что сборка жива.
+# по дате meta видно, что сборка жива. Сообщение коммита: «Списки ГГГГ-ММ-ДД: …»,
+# когда изменились файлы списков, иначе «Сборка ГГГГ-ММ-ДД: списки без изменений»
+# (одного кеша RIPE для «Списки» мало).
+#
+# После push — для шага релиза (scripts/release.sh), в $GITHUB_OUTPUT, если он задан:
+#   sha — опубликованный коммит; date — дата из сообщения (UTC);
+#   lists_changed — true/false, изменились ли файлы списков;
+#   prev_stats — копия stats.json из main, поверх которого легла сборка (пустая — его не было).
 #
 # Ключ — GITHUB_TOKEN из actions/checkout задачи publish (права только на этот
 # репозиторий, contents: write); в скрипте его нет и в командную строку он не попадает.
@@ -12,8 +19,12 @@ set -euo pipefail
 
 repo="${1:?}"; new="${2:?}"
 lists=(yandex ru-services vk)
-# Каталоги, которые пишет только сборка.
-dirs=(lists cache xray mihomo amnezia wireguard sing-box happ shadowrocket)
+# Каталоги файлов списков: их берут страница, профили и серверы. От них зависят
+# сообщение коммита и релиз.
+outdirs=(lists xray mihomo amnezia wireguard sing-box happ shadowrocket)
+# Каталоги, которые пишет только сборка: файлы списков и кеш RIPE.
+dirs=("${outdirs[@]}" cache)
+day=$(date -u +%Y-%m-%d)
 
 grep -qx 'format=1' "$new/meta" || { echo "::error::В meta нет format=1 — не публикую" >&2; exit 1; }
 grep -qx 'ok=1' "$new/meta" || { echo "::error::Сборка не прошла проверки — не публикую" >&2; exit 1; }
@@ -31,23 +42,30 @@ for f in "${need[@]}"; do
 done
 
 # Каталоги сборки заменяются целиком её файлами, остальное в репозитории не трогается.
+# «Прошлое» — main, на который кладём сейчас: при повторе это уже новый main.
 stage() {
+    git -C "$repo" show HEAD:stats.json > "$prevstats" 2>/dev/null || : > "$prevstats"
     for d in "${dirs[@]}"; do
         rm -rf "${repo:?}/$d"
         cp -R "$new/$d" "$repo/"
     done
     cp "$new/meta" "$new/summary.md" "$new/stats.json" "$repo/"
     git -C "$repo" add -A "${dirs[@]}" meta summary.md stats.json
-    if git -C "$repo" diff --cached --quiet -- "${dirs[@]}"; then
-        msg="Сборка $(date -u +%Y-%m-%d): списки без изменений"
+    if git -C "$repo" diff --cached --quiet -- "${outdirs[@]}"; then
+        changed=false
+        msg="Сборка $day: списки без изменений"
     else
-        msg="Списки $(date -u +%Y-%m-%d): $(git -C "$repo" diff --cached --shortstat -- lists | sed 's/^ //')"
+        changed=true
+        msg="Списки $day: $(git -C "$repo" diff --cached --shortstat -- "${outdirs[@]}" | sed 's/^ //')"
     fi
     git -C "$repo" commit --quiet -m "$msg"
 }
 
 git -C "$repo" config user.name "github-actions[bot]"
 git -C "$repo" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+# Копия прошлого stats.json для релиза. В Actions (есть $GITHUB_OUTPUT) она остаётся следующему
+# шагу, иначе её удаляет trap.
+prevstats=$(mktemp "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/aegis-prev-stats.XXXXXX")
 stage
 # Пока шла сборка, в main мог прийти другой коммит (ручной запуск в очереди, правка README).
 # Тогда сборка кладётся заново поверх нового main: её каталоги — её файлами, чужие правки
@@ -55,7 +73,7 @@ stage
 # Ответ git на первый push — в файл: при обогнавшем main его подсказки «rejected… fetch first»
 # в журнале выглядели бы ошибкой, хотя дальше идёт штатный повтор. Другую причину — показываем.
 perr=$(mktemp)
-trap 'rm -f "$perr"' EXIT
+trap 'rm -f "$perr"; [ -n "${GITHUB_OUTPUT:-}" ] || rm -f "$prevstats"' EXIT
 if ! git -C "$repo" push --quiet origin HEAD:main 2>"$perr"; then
     if grep -qE '\[rejected\]|non-fast-forward|fetch first' "$perr"; then
         echo "main ушёл вперёд — кладу сборку поверх нового main" >&2
@@ -69,4 +87,8 @@ if ! git -C "$repo" push --quiet origin HEAD:main 2>"$perr"; then
     git -C "$repo" push --quiet origin HEAD:main \
         || { echo "::error::Не публикую: push в main не прошёл и поверх нового main — запустите сборку снова" >&2; exit 1; }
 fi
-echo "Опубликовано: $msg" >&2
+sha=$(git -C "$repo" rev-parse HEAD)
+echo "Опубликовано: $msg ($sha)" >&2
+if [ -n "${GITHUB_OUTPUT:-}" ]; then
+    printf '%s=%s\n' sha "$sha" date "$day" lists_changed "$changed" prev_stats "$prevstats" >> "$GITHUB_OUTPUT"
+fi
