@@ -1,6 +1,6 @@
 {
  "format": 1,
- "generated": 1794501318,
+ "generated": 1794557219,
  "lists": {
   "yandex": {
    "title": "Яндекс",
@@ -239,7 +239,7 @@
   "shadowrocket/ru-services.list": {
    "core": "Shadowrocket",
    "count": 2873,
-   "size": 103215
+   "size": 103220
   },
   "mihomo/vk-ip.txt": {
    "core": "mihomo",
