@@ -6,10 +6,12 @@
 # когда изменились файлы списков, иначе «Сборка ГГГГ-ММ-ДД: списки без изменений»
 # (одного кеша RIPE для «Списки» мало).
 #
+# Та же сборка второй раз (кнопка Re-run у задачи publish) ничего нового не кладёт — стоп с
+# понятной причиной: она уже опубликована, а релиз так не выпустить.
+#
 # После push — для шага релиза (scripts/release.sh), в $GITHUB_OUTPUT, если он задан:
 #   sha — опубликованный коммит; date — дата из сообщения (UTC);
-#   lists_changed — true/false, изменились ли файлы списков;
-#   prev_stats — копия stats.json из main, поверх которого легла сборка (пустая — его не было).
+#   lists_changed — true/false, изменились ли файлы списков.
 #
 # Ключ — GITHUB_TOKEN из actions/checkout задачи publish (права только на этот
 # репозиторий, contents: write); в скрипте его нет и в командную строку он не попадает.
@@ -42,15 +44,17 @@ for f in "${need[@]}"; do
 done
 
 # Каталоги сборки заменяются целиком её файлами, остальное в репозитории не трогается.
-# «Прошлое» — main, на который кладём сейчас: при повторе это уже новый main.
 stage() {
-    git -C "$repo" show HEAD:stats.json > "$prevstats" 2>/dev/null || : > "$prevstats"
     for d in "${dirs[@]}"; do
         rm -rf "${repo:?}/$d"
         cp -R "$new/$d" "$repo/"
     done
     cp "$new/meta" "$new/summary.md" "$new/stats.json" "$repo/"
     git -C "$repo" add -A "${dirs[@]}" meta summary.md stats.json
+    if git -C "$repo" diff --cached --quiet; then
+        echo "::error::Эта сборка уже опубликована (коммит $(git -C "$repo" rev-parse --short HEAD)): в main те же файлы, вплоть до meta. Кнопка Re-run её не выпустит — для релиза: Actions → build → Run workflow с галочкой «Выпустить релиз»." >&2
+        exit 1
+    fi
     if git -C "$repo" diff --cached --quiet -- "${outdirs[@]}"; then
         changed=false
         msg="Сборка $day: списки без изменений"
@@ -63,9 +67,6 @@ stage() {
 
 git -C "$repo" config user.name "github-actions[bot]"
 git -C "$repo" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-# Копия прошлого stats.json для релиза. В Actions (есть $GITHUB_OUTPUT) она остаётся следующему
-# шагу, иначе её удаляет trap.
-prevstats=$(mktemp "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/aegis-prev-stats.XXXXXX")
 stage
 # Пока шла сборка, в main мог прийти другой коммит (ручной запуск в очереди, правка README).
 # Тогда сборка кладётся заново поверх нового main: её каталоги — её файлами, чужие правки
@@ -73,7 +74,7 @@ stage
 # Ответ git на первый push — в файл: при обогнавшем main его подсказки «rejected… fetch first»
 # в журнале выглядели бы ошибкой, хотя дальше идёт штатный повтор. Другую причину — показываем.
 perr=$(mktemp)
-trap 'rm -f "$perr"; [ -n "${GITHUB_OUTPUT:-}" ] || rm -f "$prevstats"' EXIT
+trap 'rm -f "$perr"' EXIT
 if ! git -C "$repo" push --quiet origin HEAD:main 2>"$perr"; then
     if grep -qE '\[rejected\]|non-fast-forward|fetch first' "$perr"; then
         echo "main ушёл вперёд — кладу сборку поверх нового main" >&2
@@ -90,5 +91,5 @@ fi
 sha=$(git -C "$repo" rev-parse HEAD)
 echo "Опубликовано: $msg ($sha)" >&2
 if [ -n "${GITHUB_OUTPUT:-}" ]; then
-    printf '%s=%s\n' sha "$sha" date "$day" lists_changed "$changed" prev_stats "$prevstats" >> "$GITHUB_OUTPUT"
+    printf '%s=%s\n' sha "$sha" date "$day" lists_changed "$changed" >> "$GITHUB_OUTPUT"
 fi
