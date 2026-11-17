@@ -224,6 +224,7 @@
 45.89.227.149/32 # sberbank.ru | AS208677 Cloud.ru | адрес
 45.89.227.224/32 # sberbank.ru | AS208677 Cloud.ru | адрес
 45.129.128.127/32 # mts.ru | AS9123 Timeweb | адрес
+45.130.41.147/32 # mos.ru | AS198610 Beget | адрес
 45.134.61.56/32 # t2.ru | AS203714 Flex | адрес
 45.141.78.32/32 # mos.ru | AS198610 Beget | адрес
 45.141.79.190/32 # detmir.ru | AS198610 Beget | адрес
@@ -339,6 +340,7 @@
 51.250.15.55/32 # beeline.ru | AS200350 Yandex Cloud | адрес
 51.250.15.93/32 # lamoda.ru | AS200350 Yandex Cloud | адрес
 51.250.15.221/32 # beeline.ru | AS200350 Yandex Cloud | адрес
+51.250.17.146/32 # mts.ru | AS200350 Yandex Cloud | адрес
 51.250.21.106/32 # reso.ru | AS200350 Yandex Cloud | адрес
 51.250.28.231/32 # magnit.ru | AS200350 Yandex Cloud | адрес
 51.250.33.236/32 # mts.ru | AS200350 Yandex Cloud | адрес
@@ -1322,6 +1324,7 @@
 168.113.133.236/32 # genotek.ru | AS47764 VK Cloud (VK) | адрес
 168.113.134.90/32 # genotek.ru | AS47764 VK Cloud (VK) | адрес
 168.113.135.107/32 # genotek.ru | AS47764 VK Cloud (VK) | адрес
+168.113.136.159/32 # genotek.ru | AS47764 VK Cloud (VK) | адрес
 176.53.182.72/32 # reso.ru | AS203714 Flex | адрес
 176.53.226.206/32 # beeline.ru | AS50340 Selectel | адрес
 176.99.3.85/32 # magnit.ru | AS197695 REG.RU | адрес

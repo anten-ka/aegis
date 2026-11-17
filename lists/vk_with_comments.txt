@@ -2,6 +2,7 @@
 5.61.20.92/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 5.61.21.120/32 # ok.ru | AS47764 VK Cloud (VK) | адрес
 5.61.21.121/32 # ok.ru | AS47764 VK Cloud (VK) | адрес
+5.61.21.185/32 # vk.com | AS47764 VK Cloud (VK) | адрес
 5.61.23.11/32 # ok.ru | AS47764 VK Cloud (VK) | адрес
 5.61.23.30/32 # ok.ru | AS47764 VK Cloud (VK) | адрес
 5.61.23.38/32 # max.ru | AS47764 VK Cloud (VK) | адрес

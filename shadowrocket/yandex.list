@@ -116,6 +116,7 @@ IP-CIDR,31.44.9.142/32,no-resolve
 IP-CIDR,31.44.9.163/32,no-resolve
 IP-CIDR,37.9.64.0/18,no-resolve
 IP-CIDR,37.140.128.0/18,no-resolve
+IP-CIDR,37.230.169.68/32,no-resolve
 IP-CIDR,37.230.169.253/32,no-resolve
 IP-CIDR,51.250.1.251/32,no-resolve
 IP-CIDR,51.250.3.3/32,no-resolve
