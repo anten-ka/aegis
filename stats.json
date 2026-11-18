@@ -1,18 +1,18 @@
 {
  "format": 1,
- "generated": 1794918296,
+ "generated": 1795003868,
  "lists": {
   "yandex": {
    "title": "Яндекс",
    "whole": 47,
-   "point": 731,
-   "v4": 651,
+   "point": 736,
+   "v4": 656,
    "v6": 82,
    "domains": 100,
-   "site_addrs": 4480,
+   "site_addrs": 4487,
    "rules": {
-    "своя сеть": 3525,
-    "адресом": 772,
+    "своя сеть": 3527,
+    "адресом": 777,
     "CDN — не трогаем": 79,
     "под вопросом": 104
    },
@@ -39,16 +39,16 @@
   "ru-services": {
    "title": "Другие сервисы рунета",
    "whole": 210,
-   "point": 2874,
-   "v4": 2501,
+   "point": 2877,
+   "v4": 2504,
    "v6": 69,
    "domains": 307,
-   "site_addrs": 5922,
+   "site_addrs": 5929,
    "rules": {
     "своя сеть": 1439,
-    "адресом": 2975,
-    "CDN — не трогаем": 1158,
-    "под вопросом": 350
+    "адресом": 2978,
+    "CDN — не трогаем": 1161,
+    "под вопросом": 351
    },
    "sites": [
     "2gis.ru",
@@ -124,15 +124,15 @@
   "vk": {
    "title": "ВК",
    "whole": 33,
-   "point": 522,
-   "v4": 447,
+   "point": 523,
+   "v4": 448,
    "v6": 28,
    "domains": 63,
-   "site_addrs": 2251,
+   "site_addrs": 2254,
    "rules": {
     "своя сеть": 163,
-    "адресом": 669,
-    "CDN — не трогаем": 1210,
+    "адресом": 670,
+    "CDN — не трогаем": 1212,
     "под вопросом": 209
    },
    "sites": [
@@ -173,8 +173,8 @@
  "files": {
   "xray/aegis-ip.dat": {
    "core": "Xray",
-   "count": 3778,
-   "size": 40125
+   "count": 3787,
+   "size": 40215
   },
   "xray/aegis-site.dat": {
    "core": "Xray",
@@ -183,8 +183,8 @@
   },
   "mihomo/yandex-ip.txt": {
    "core": "mihomo",
-   "count": 733,
-   "size": 13335
+   "count": 738,
+   "size": 13419
   },
   "mihomo/yandex-domain.txt": {
    "core": "mihomo",
@@ -193,8 +193,8 @@
   },
   "amnezia/yandex.json": {
    "core": "AmneziaVPN",
-   "count": 651,
-   "size": 34175
+   "count": 656,
+   "size": 34434
   },
   "sing-box/geosite-aegis-yandex.json": {
    "core": "sing-box",
@@ -203,18 +203,18 @@
   },
   "sing-box/geoip-aegis-yandex.json": {
    "core": "sing-box",
-   "count": 733,
-   "size": 18528
+   "count": 738,
+   "size": 18647
   },
   "shadowrocket/yandex.list": {
    "core": "Shadowrocket",
-   "count": 833,
-   "size": 30023
+   "count": 838,
+   "size": 30202
   },
   "mihomo/ru-services-ip.txt": {
    "core": "mihomo",
-   "count": 2570,
-   "size": 44337
+   "count": 2573,
+   "size": 44389
   },
   "mihomo/ru-services-domain.txt": {
    "core": "mihomo",
@@ -223,8 +223,8 @@
   },
   "amnezia/ru-services.json": {
    "core": "AmneziaVPN",
-   "count": 2501,
-   "size": 130333
+   "count": 2504,
+   "size": 130490
   },
   "sing-box/geosite-aegis-ru-services.json": {
    "core": "sing-box",
@@ -233,18 +233,18 @@
   },
   "sing-box/geoip-aegis-ru-services.json": {
    "core": "sing-box",
-   "count": 2570,
-   "size": 62389
+   "count": 2573,
+   "size": 62462
   },
   "shadowrocket/ru-services.list": {
    "core": "Shadowrocket",
-   "count": 2877,
-   "size": 103366
+   "count": 2880,
+   "size": 103475
   },
   "mihomo/vk-ip.txt": {
    "core": "mihomo",
-   "count": 475,
-   "size": 8261
+   "count": 476,
+   "size": 8279
   },
   "mihomo/vk-domain.txt": {
    "core": "mihomo",
@@ -253,8 +253,8 @@
   },
   "amnezia/vk.json": {
    "core": "AmneziaVPN",
-   "count": 447,
-   "size": 23294
+   "count": 448,
+   "size": 23347
   },
   "sing-box/geosite-aegis-vk.json": {
    "core": "sing-box",
@@ -263,13 +263,13 @@
   },
   "sing-box/geoip-aegis-vk.json": {
    "core": "sing-box",
-   "count": 475,
-   "size": 11648
+   "count": 476,
+   "size": 11673
   },
   "shadowrocket/vk.list": {
    "core": "Shadowrocket",
-   "count": 538,
-   "size": 18967
+   "count": 539,
+   "size": 19004
   },
   "wireguard/yandex-allowedips-compact.txt": {
    "core": "WireGuard / AmneziaWG",
@@ -278,8 +278,8 @@
   },
   "wireguard/yandex-allowedips-full.txt": {
    "core": "WireGuard / AmneziaWG",
-   "count": 6751,
-   "size": 132476
+   "count": 6798,
+   "size": 133265
   },
   "happ/yandex-direct.json": {
    "core": "Happ / INCY",
@@ -298,8 +298,8 @@
   },
   "wireguard/ru-services-allowedips-full.txt": {
    "core": "WireGuard / AmneziaWG",
-   "count": 20545,
-   "size": 392979
+   "count": 20567,
+   "size": 393379
   },
   "happ/ru-services-direct.json": {
    "core": "Happ / INCY",
@@ -318,8 +318,8 @@
   },
   "wireguard/vk-allowedips-full.txt": {
    "core": "WireGuard / AmneziaWG",
-   "count": 4687,
-   "size": 87998
+   "count": 4693,
+   "size": 88112
   },
   "happ/vk-direct.json": {
    "core": "Happ / INCY",
@@ -338,8 +338,8 @@
   },
   "wireguard/yandex_ru-services-allowedips-full.txt": {
    "core": "WireGuard / AmneziaWG",
-   "count": 25756,
-   "size": 499463
+   "count": 25811,
+   "size": 500445
   },
   "happ/yandex_ru-services-direct.json": {
    "core": "Happ / INCY",
@@ -358,8 +358,8 @@
   },
   "wireguard/yandex_vk-allowedips-full.txt": {
    "core": "WireGuard / AmneziaWG",
-   "count": 10356,
-   "size": 201262
+   "count": 10399,
+   "size": 202017
   },
   "happ/yandex_vk-direct.json": {
    "core": "Happ / INCY",
@@ -378,8 +378,8 @@
   },
   "wireguard/ru-services_vk-allowedips-full.txt": {
    "core": "WireGuard / AmneziaWG",
-   "count": 23544,
-   "size": 452670
+   "count": 23572,
+   "size": 453184
   },
   "happ/ru-services_vk-direct.json": {
    "core": "Happ / INCY",
@@ -398,8 +398,8 @@
   },
   "wireguard/yandex_ru-services_vk-allowedips-full.txt": {
    "core": "WireGuard / AmneziaWG",
-   "count": 28373,
-   "size": 550897
+   "count": 28431,
+   "size": 551941
   },
   "happ/yandex_ru-services_vk-direct.json": {
    "core": "Happ / INCY",
@@ -413,8 +413,8 @@
   },
   "lists/yandex-v4.txt": {
    "core": "list",
-   "count": 651,
-   "size": 11387
+   "count": 656,
+   "size": 11471
   },
   "lists/yandex-v6.txt": {
    "core": "list",
@@ -423,8 +423,8 @@
   },
   "lists/ru-services-v4.txt": {
    "core": "list",
-   "count": 2501,
-   "size": 42795
+   "count": 2504,
+   "size": 42847
   },
   "lists/ru-services-v6.txt": {
    "core": "list",
@@ -433,8 +433,8 @@
   },
   "lists/vk-v4.txt": {
    "core": "list",
-   "count": 447,
-   "size": 7646
+   "count": 448,
+   "size": 7664
   },
   "lists/vk-v6.txt": {
    "core": "list",
