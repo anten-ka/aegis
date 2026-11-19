@@ -391,6 +391,7 @@
 62.76.113.25/32 # 2gis.ru | AS61400 Netrack | адрес
 62.76.113.27/32 # 2gis.ru | AS61400 Netrack | адрес
 62.76.113.28/32 # 2gis.ru | AS61400 Netrack | адрес
+62.76.113.29/32 # 2gis.ru | AS61400 Netrack | адрес
 62.84.114.85/32 # megafon.ru | AS200350 Yandex Cloud | адрес
 62.84.119.145/32 # vtb.ru | AS200350 Yandex Cloud | адрес
 62.84.121.206/32 # genotek.ru | AS200350 Yandex Cloud | адрес
@@ -675,6 +676,7 @@
 84.201.187.157/32 # magnit.ru | AS200350 Yandex Cloud | адрес
 84.201.188.100/32 # mts.ru | AS200350 Yandex Cloud | адрес
 84.252.130.219/32 # genotek.ru | AS200350 Yandex Cloud | адрес
+84.252.132.94/32 # onepricecoffee.com | AS200350 Yandex Cloud | адрес
 84.252.133.1/32 # vtb.ru | AS200350 Yandex Cloud | адрес
 84.252.135.151/32 # detmir.ru | AS200350 Yandex Cloud | адрес
 84.252.135.185/32 # magnit.ru | AS200350 Yandex Cloud | адрес
