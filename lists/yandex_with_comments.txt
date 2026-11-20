@@ -330,6 +330,7 @@
 89.169.142.76/32 # yandex@cloud | AS200350 Yandex Cloud | адрес
 89.169.144.180/32 # yandex.ru | AS200350 Yandex Cloud | адрес
 89.169.171.94/32 # yandex@cloud | AS200350 Yandex Cloud | адрес
+89.169.187.124/32 # yandex@cloud | AS200350 Yandex Cloud | адрес
 92.255.112.0/20 # Яндекс | AS13238 | своя сеть целиком
 93.77.186.181/32 # yandex@cloud | AS200350 Yandex Cloud | адрес
 93.158.128.0/18 # Яндекс | AS13238 | своя сеть целиком
@@ -689,6 +690,7 @@
 2a00:b4c0:3b0::16/128 # yandex.ru | AS47764 VK Cloud (VK) | адрес
 2a00:b4c0:9100:b000::1:0/128 # yandex.ru | AS47764 VK Cloud (VK) | адрес
 2a00:b4c0:9100:b000::1:4/128 # yandex.ru | AS47764 VK Cloud (VK) | адрес
+2a00:b4c0:9100:b000::1:12/128 # yandex.ru | AS47764 VK Cloud (VK) | адрес
 2a00:b4c0:9100:b000::1:32/128 # yandex.ru | AS47764 VK Cloud (VK) | адрес
 2a00:b4c0:9100:b000::1:33/128 # yandex.ru | AS47764 VK Cloud (VK) | адрес
 2a00:b4c0:9100:b000::1:b0/128 # yandex.ru | AS47764 VK Cloud (VK) | адрес

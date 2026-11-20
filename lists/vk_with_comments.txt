@@ -143,6 +143,7 @@
 90.156.232.136/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 90.156.233.1/32 # vk.com | AS47764 VK Cloud (VK) | адрес
 90.156.233.7/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
+90.156.233.107/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 90.156.233.120/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 90.156.233.137/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 90.156.233.231/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
@@ -452,7 +453,6 @@
 188.124.50.192/32 # tetrika-school.ru | AS49505 Selectel | адрес
 195.208.65.91/32 # tetrika-school.ru | AS34879 ССТ (госЦОД) | адрес
 195.209.66.69/32 # tetrika-school.ru | AS34879 ССТ (госЦОД) | адрес
-195.209.67.64/32 # tetrika-school.ru | AS34879 ССТ (госЦОД) | адрес
 195.209.80.239/32 # tetrika-school.ru | AS34879 ССТ (госЦОД) | адрес
 195.209.86.78/32 # tetrika-school.ru | AS34879 ССТ (госЦОД) | адрес
 195.209.88.75/32 # tetrika-school.ru | AS34879 ССТ (госЦОД) | адрес
