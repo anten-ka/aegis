@@ -149,6 +149,7 @@ IP-CIDR,84.201.175.12/32,no-resolve
 IP-CIDR,85.119.149.34/32,no-resolve
 IP-CIDR,85.198.107.0/24,no-resolve
 IP-CIDR,85.208.85.15/32,no-resolve
+IP-CIDR,87.228.78.6/32,no-resolve
 IP-CIDR,87.240.128.0/18,no-resolve
 IP-CIDR,87.250.254.106/32,no-resolve
 IP-CIDR,87.250.254.116/32,no-resolve
