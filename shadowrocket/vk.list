@@ -425,6 +425,7 @@ IP-CIDR,185.180.201.147/32,no-resolve
 IP-CIDR,185.180.201.177/32,no-resolve
 IP-CIDR,185.180.201.199/32,no-resolve
 IP-CIDR,185.180.201.202/32,no-resolve
+IP-CIDR,185.180.201.252/32,no-resolve
 IP-CIDR,185.182.110.97/32,no-resolve
 IP-CIDR,185.226.55.95/32,no-resolve
 IP-CIDR,188.93.56.40/32,no-resolve
