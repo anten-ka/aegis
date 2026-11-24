@@ -1,14 +1,14 @@
 # Aegis: маршрутизация к сервисам рунета
 
-**23.11.2026 13:37 UTC** · сборка 93 с · ✅ можно публиковать
+**24.11.2026 14:13 UTC** · сборка 9 с · ✅ можно публиковать
 
 ## Что в списках
 
 | Список | Свои сети целиком | Адресов точечно | Охват, блоков /24 | Строк IPv4 | Строк IPv6 | Доменов | С прошлой сборки |
 |---|---:|---:|---:|---:|---:|---:|---|
 | **Яндекс** | 47 | 739 | 755 | 658 | 83 | 100 | без изменений |
-| **Другие сервисы рунета** | 210 | 2874 | 257 | 2500 | 69 | 307 | без изменений |
-| **ВК** | 33 | 528 | 246 | 452 | 29 | 63 | +1 / −0 строк |
+| **Другие сервисы рунета** | 211 | 2876 | 258 | 2503 | 69 | 307 | +3 / −0 строк |
+| **ВК** | 33 | 529 | 246 | 453 | 29 | 63 | +1 / −0 строк |
 
 goInstaller на сервере примет не больше 16384 блоков /24 на список. Своя сеть — вся сеть принадлежит сервису по RIPE; точечно — адрес в облаке, у оператора или хостера.
 
@@ -23,21 +23,21 @@ goInstaller на сервере примет не больше 16384 блоко�
 | CDN — не трогаем | 81 | `░░░░░░░░░░░░░░░░░░░░░░░░` |
 | под вопросом | 104 | `█░░░░░░░░░░░░░░░░░░░░░░░` |
 
-**Другие сервисы рунета** — 5943 адресов с сайта
+**Другие сервисы рунета** — 5946 адресов с сайта
 
 | Правило | Адресов | |
 |---|---:|---|
 | своя сеть | 1441 | `██████░░░░░░░░░░░░░░░░░░` |
-| адресом | 2977 | `████████████░░░░░░░░░░░░` |
+| адресом | 2979 | `████████████░░░░░░░░░░░░` |
 | CDN — не трогаем | 1168 | `█████░░░░░░░░░░░░░░░░░░░` |
-| под вопросом | 357 | `█░░░░░░░░░░░░░░░░░░░░░░░` |
+| под вопросом | 358 | `█░░░░░░░░░░░░░░░░░░░░░░░` |
 
-**ВК** — 2267 адресов с сайта
+**ВК** — 2268 адресов с сайта
 
 | Правило | Адресов | |
 |---|---:|---|
 | своя сеть | 163 | `██░░░░░░░░░░░░░░░░░░░░░░` |
-| адресом | 677 | `███████░░░░░░░░░░░░░░░░░` |
+| адресом | 678 | `███████░░░░░░░░░░░░░░░░░` |
 | CDN — не трогаем | 1216 | `█████████████░░░░░░░░░░░` |
 | под вопросом | 211 | `██░░░░░░░░░░░░░░░░░░░░░░` |
 
@@ -70,8 +70,8 @@ goInstaller на сервере примет не больше 16384 блоко�
 
 | Сайт | Свои сети (AS) | Своя сеть | Адресом | CDN | Под вопросом |
 |---|---|---:|---:|---:|---:|
-| mts.ru | — | 0 | 760 | 362 | 50 |
-| mos.ru | — | 0 | 436 | 58 | 50 |
+| mts.ru | — | 0 | 761 | 362 | 50 |
+| mos.ru | — | 0 | 436 | 58 | 51 |
 | vtb.ru | AS24823, AS41551 | 265 | 86 | 33 | 30 |
 | sberbank.ru | AS35237 | 250 | 81 | 94 | 15 |
 | beeline.ru | — | 0 | 250 | 3 | 15 |
@@ -79,7 +79,7 @@ goInstaller на сервере примет не больше 16384 блоко�
 | alfabank.ru | AS15632 | 176 | 34 | 19 | 21 |
 | ozon.ru | AS44386, AS207986 | 167 | 15 | 12 | 21 |
 | magnit.ru | AS57319 | 58 | 118 | 51 | 19 |
-| gosuslugi.ru | AS196747 | 30 | 124 | 2 | 0 |
+| gosuslugi.ru | AS196747 | 30 | 125 | 2 | 0 |
 | wb.ru | AS57073 | 145 | 7 | 0 | 0 |
 | nalog.ru | — | 0 | 147 | 0 | 3 |
 | t2.ru | — | 0 | 120 | 4 | 16 |
@@ -140,7 +140,7 @@ goInstaller на сервере примет не больше 16384 блоко�
 | gb.ru | — | 0 | 18 | 2 | 0 |
 | cian.ru | — | 0 | 17 | 2 | 0 |
 | skillbox.ru | — | 0 | 17 | 415 | 17 |
-| vk@vkplay.ru | — | 0 | 16 | 2 | 6 |
+| vk@vkplay.ru | — | 0 | 17 | 2 | 6 |
 | vk@vkvideo.ru | AS47541 | 8 | 1 | 0 | 0 |
 | tamtam.chat | — | 0 | 5 | 0 | 0 |
 | youla.ru | — | 0 | 3 | 1 | 0 |
@@ -155,7 +155,7 @@ goInstaller на сервере примет не больше 16384 блоко�
 
 Имя покрывает и поддомены. Яндекс — 100, Другие сервисы рунета — 307, ВК — 63.
 
-Общие домены, где живут чужие сайты и службы, в списки не берём: yandexcloud.net — 638, dbankcloud.ru — 2, yandexcloud.kz — 1, dbankcloud.com — 1, adjust.com — 1.
+Общие домены, где живут чужие сайты и службы, в списки не берём: yandexcloud.net — 638, dbankcloud.ru — 2, adjust.com — 1, dbankcloud.com — 1, yandexcloud.kz — 1.
 
 Зоны с чужими сайтами (com.ru, msk.ru, площадки вроде tilda.ws) целиком в списки не берём: не встретились.
 
@@ -167,7 +167,7 @@ goInstaller на сервере примет не больше 16384 блоко�
 
 | Для чего | Файл | Записей | Размер |
 |---|---|---:|---:|
-| Xray | `xray/aegis-ip.dat` | 3791 | 39 КБ |
+| Xray | `xray/aegis-ip.dat` | 3795 | 39 КБ |
 | Xray | `xray/aegis-site.dat` | 470 | 10 КБ |
 | mihomo | `mihomo/yandex-ip.txt` | 741 | 13 КБ |
 | mihomo | `mihomo/yandex-domain.txt` | 100 | 1 КБ |
@@ -175,44 +175,44 @@ goInstaller на сервере примет не больше 16384 блоко�
 | sing-box | `sing-box/geosite-aegis-yandex.json` | 100 | 2 КБ |
 | sing-box | `sing-box/geoip-aegis-yandex.json` | 741 | 18 КБ |
 | Shadowrocket | `shadowrocket/yandex.list` | 841 | 30 КБ |
-| mihomo | `mihomo/ru-services-ip.txt` | 2569 | 43 КБ |
+| mihomo | `mihomo/ru-services-ip.txt` | 2572 | 43 КБ |
 | mihomo | `mihomo/ru-services-domain.txt` | 307 | 6 КБ |
-| AmneziaVPN | `amnezia/ru-services.json` | 2500 | 127 КБ |
+| AmneziaVPN | `amnezia/ru-services.json` | 2503 | 127 КБ |
 | sing-box | `sing-box/geosite-aegis-ru-services.json` | 307 | 8 КБ |
-| sing-box | `sing-box/geoip-aegis-ru-services.json` | 2569 | 61 КБ |
-| Shadowrocket | `shadowrocket/ru-services.list` | 2876 | 101 КБ |
-| mihomo | `mihomo/vk-ip.txt` | 481 | 8 КБ |
+| sing-box | `sing-box/geoip-aegis-ru-services.json` | 2572 | 61 КБ |
+| Shadowrocket | `shadowrocket/ru-services.list` | 2879 | 101 КБ |
+| mihomo | `mihomo/vk-ip.txt` | 482 | 8 КБ |
 | mihomo | `mihomo/vk-domain.txt` | 63 | 873 Б |
-| AmneziaVPN | `amnezia/vk.json` | 452 | 23 КБ |
+| AmneziaVPN | `amnezia/vk.json` | 453 | 23 КБ |
 | sing-box | `sing-box/geosite-aegis-vk.json` | 63 | 1 КБ |
-| sing-box | `sing-box/geoip-aegis-vk.json` | 481 | 12 КБ |
-| Shadowrocket | `shadowrocket/vk.list` | 544 | 19 КБ |
+| sing-box | `sing-box/geoip-aegis-vk.json` | 482 | 12 КБ |
+| Shadowrocket | `shadowrocket/vk.list` | 545 | 19 КБ |
 | WireGuard / AmneziaWG | `wireguard/yandex-allowedips-compact.txt` | 381 | 5 КБ |
 | WireGuard / AmneziaWG | `wireguard/yandex-allowedips-full.txt` | 6817 | 131 КБ |
 | Happ / INCY | `happ/yandex-direct.json` | 1 | 534 Б |
 | Happ / INCY | `happ/yandex-block.json` | 1 | 532 Б |
-| WireGuard / AmneziaWG | `wireguard/ru-services-allowedips-compact.txt` | 1253 | 19 КБ |
-| WireGuard / AmneziaWG | `wireguard/ru-services-allowedips-full.txt` | 20548 | 384 КБ |
+| WireGuard / AmneziaWG | `wireguard/ru-services-allowedips-compact.txt` | 1272 | 19 КБ |
+| WireGuard / AmneziaWG | `wireguard/ru-services-allowedips-full.txt` | 20584 | 384 КБ |
 | Happ / INCY | `happ/ru-services-direct.json` | 1 | 549 Б |
 | Happ / INCY | `happ/ru-services-block.json` | 1 | 547 Б |
 | WireGuard / AmneziaWG | `wireguard/vk-allowedips-compact.txt` | 405 | 6 КБ |
-| WireGuard / AmneziaWG | `wireguard/vk-allowedips-full.txt` | 4736 | 87 КБ |
+| WireGuard / AmneziaWG | `wireguard/vk-allowedips-full.txt` | 4737 | 87 КБ |
 | Happ / INCY | `happ/vk-direct.json` | 1 | 522 Б |
 | Happ / INCY | `happ/vk-block.json` | 1 | 520 Б |
-| WireGuard / AmneziaWG | `wireguard/yandex_ru-services-allowedips-compact.txt` | 1367 | 21 КБ |
-| WireGuard / AmneziaWG | `wireguard/yandex_ru-services-allowedips-full.txt` | 25800 | 489 КБ |
+| WireGuard / AmneziaWG | `wireguard/yandex_ru-services-allowedips-compact.txt` | 1386 | 21 КБ |
+| WireGuard / AmneziaWG | `wireguard/yandex_ru-services-allowedips-full.txt` | 25836 | 489 КБ |
 | Happ / INCY | `happ/yandex_ru-services-direct.json` | 2 | 590 Б |
 | Happ / INCY | `happ/yandex_ru-services-block.json` | 2 | 588 Б |
 | WireGuard / AmneziaWG | `wireguard/yandex_vk-allowedips-compact.txt` | 552 | 8 КБ |
-| WireGuard / AmneziaWG | `wireguard/yandex_vk-allowedips-full.txt` | 10461 | 199 КБ |
+| WireGuard / AmneziaWG | `wireguard/yandex_vk-allowedips-full.txt` | 10462 | 199 КБ |
 | Happ / INCY | `happ/yandex_vk-direct.json` | 2 | 563 Б |
 | Happ / INCY | `happ/yandex_vk-block.json` | 2 | 561 Б |
-| WireGuard / AmneziaWG | `wireguard/ru-services_vk-allowedips-compact.txt` | 1403 | 21 КБ |
-| WireGuard / AmneziaWG | `wireguard/ru-services_vk-allowedips-full.txt` | 23593 | 443 КБ |
+| WireGuard / AmneziaWG | `wireguard/ru-services_vk-allowedips-compact.txt` | 1422 | 22 КБ |
+| WireGuard / AmneziaWG | `wireguard/ru-services_vk-allowedips-full.txt` | 23630 | 444 КБ |
 | Happ / INCY | `happ/ru-services_vk-direct.json` | 2 | 578 Б |
 | Happ / INCY | `happ/ru-services_vk-block.json` | 2 | 576 Б |
-| WireGuard / AmneziaWG | `wireguard/yandex_ru-services_vk-allowedips-compact.txt` | 1501 | 23 КБ |
-| WireGuard / AmneziaWG | `wireguard/yandex_ru-services_vk-allowedips-full.txt` | 28460 | 540 КБ |
+| WireGuard / AmneziaWG | `wireguard/yandex_ru-services_vk-allowedips-compact.txt` | 1520 | 23 КБ |
+| WireGuard / AmneziaWG | `wireguard/yandex_ru-services_vk-allowedips-full.txt` | 28497 | 540 КБ |
 | Happ / INCY | `happ/yandex_ru-services_vk-direct.json` | 3 | 619 Б |
 | Happ / INCY | `happ/yandex_ru-services_vk-block.json` | 3 | 617 Б |
 
@@ -240,11 +240,11 @@ goInstaller на сервере примет не больше 16384 блоко�
 | AS199669 | ATLEX-AS Okay-Telecom Ltd. | 10 | mts.ru, skillbox.ru |
 | AS200107 | KL-EXT Kaspersky Lab Switzerland GmbH | 10 | magnit.ru |
 
-…и ещё 146 AS.
+…и ещё 147 AS.
 
 ## Проверки
 
 - ✅ все проверки пройдены
-- RIPE: 641 запросов, из кеша 1902 блоков из 2502, без ответа 0
+- RIPE: 140 запросов, из кеша 2406 блоков из 2505, без ответа 0
 
 Источники: [russia.iplist.opencck.org](https://russia.iplist.opencck.org) (MIT, rekryt/iplist) · [RIPEstat](https://stat.ripe.net) · правила — `rules/asn-classes.tsv` · [генератор маршрутизации](https://aegis-routing.github.io/).

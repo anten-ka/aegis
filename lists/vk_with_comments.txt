@@ -431,6 +431,7 @@
 185.180.200.189/32 # uchi.ru | AS47764 VK Cloud (VK) | адрес
 185.180.200.217/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 185.180.201.1/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
+185.180.201.5/32 # vk@vkplay.ru | AS47764 VK Cloud (VK) | адрес
 185.180.201.18/32 # ok.ru | AS47764 VK Cloud (VK) | адрес
 185.180.201.147/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 185.180.201.177/32 # vk.com | AS47764 VK Cloud (VK) | адрес
