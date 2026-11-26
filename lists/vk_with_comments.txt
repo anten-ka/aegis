@@ -139,6 +139,7 @@
 90.156.232.38/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 90.156.232.41/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 90.156.232.47/32 # rustore.ru | AS47764 VK Cloud (VK) | адрес
+90.156.232.67/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 90.156.232.101/32 # vk.com | AS47764 VK Cloud (VK) | адрес
 90.156.232.127/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 90.156.232.136/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
