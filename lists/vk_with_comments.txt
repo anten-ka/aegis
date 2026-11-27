@@ -129,6 +129,7 @@
 89.221.238.253/32 # uchi.ru | AS47764 VK Cloud (VK) | адрес
 89.221.239.1/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 89.221.239.2/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
+89.221.239.112/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 89.221.239.148/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 90.156.232.4/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 90.156.232.5/32 # vk@vkplay.ru | AS47764 VK Cloud (VK) | адрес
@@ -385,6 +386,7 @@
 178.22.89.40/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 178.22.89.41/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 178.22.89.52/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
+178.22.89.168/32 # ok.ru | AS47764 VK Cloud (VK) | адрес
 178.22.89.169/32 # ok.ru | AS47764 VK Cloud (VK) | адрес
 178.22.91.140/32 # mail.ru | AS47764 VK Cloud (VK) | адрес
 178.154.228.103/32 # tetrika-school.ru | AS200350 Yandex Cloud | адрес
