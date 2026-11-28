@@ -447,6 +447,7 @@ IP-CIDR,188.93.63.214/32,no-resolve
 IP-CIDR,188.124.50.192/32,no-resolve
 IP-CIDR,195.208.65.91/32,no-resolve
 IP-CIDR,195.209.66.69/32,no-resolve
+IP-CIDR,195.209.67.64/32,no-resolve
 IP-CIDR,195.209.80.239/32,no-resolve
 IP-CIDR,195.209.86.78/32,no-resolve
 IP-CIDR,195.209.88.75/32,no-resolve

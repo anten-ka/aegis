@@ -1195,6 +1195,8 @@ IP-CIDR,94.79.51.186/32,no-resolve
 IP-CIDR,94.79.51.202/32,no-resolve
 IP-CIDR,94.79.51.211/32,no-resolve
 IP-CIDR,94.79.51.212/30,no-resolve
+IP-CIDR,94.79.51.225/32,no-resolve
+IP-CIDR,94.79.51.226/32,no-resolve
 IP-CIDR,94.79.51.236/32,no-resolve
 IP-CIDR,94.79.51.245/32,no-resolve
 IP-CIDR,94.124.200.0/22,no-resolve
@@ -2038,6 +2040,11 @@ IP-CIDR,195.208.187.25/32,no-resolve
 IP-CIDR,195.208.187.27/32,no-resolve
 IP-CIDR,195.209.66.39/32,no-resolve
 IP-CIDR,195.209.66.72/32,no-resolve
+IP-CIDR,195.209.67.49/32,no-resolve
+IP-CIDR,195.209.67.62/32,no-resolve
+IP-CIDR,195.209.67.105/32,no-resolve
+IP-CIDR,195.209.67.183/32,no-resolve
+IP-CIDR,195.209.67.240/32,no-resolve
 IP-CIDR,195.209.73.168/32,no-resolve
 IP-CIDR,195.209.73.186/32,no-resolve
 IP-CIDR,195.209.80.92/32,no-resolve
